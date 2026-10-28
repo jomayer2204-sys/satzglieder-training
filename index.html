@@ -350,6 +350,32 @@ body.kid .nav { display: none; }
 .path { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
 .station h3 { font-size: 20px; }
 
+/* ---------- DAZ ---------- */
+.dnav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 820px; margin: 0 auto 16px; }
+.dnav button {
+  border: 0; background: #e4efec; border-radius: 12px; padding: 9px 14px; font: inherit; font-weight: bold;
+  font-size: 15px; cursor: pointer; color: #0f4c46; border-bottom: 4px solid #0f766e;
+}
+.dnav button.on { background: #0f766e; color: #fff; }
+.dpage { display: none; }
+.dpage.on { display: block; }
+.bar { font-weight: bold; font-size: 1.25em; margin: 0 .4em; color: #222; }
+ol.circ.satz li { font-size: 21px; line-height: 2.7; }
+ol.schritte { margin: 6px 0; padding-left: 26px; }
+ol.schritte li { margin: 5px 0; font-size: 18px; }
+.satz1 { font-size: 18px; margin: 4px 0; }
+.kasten { display: inline-block; border: 3px solid #555; border-radius: 12px; padding: 2px 12px; background: #fff; margin: 3px 4px; font-weight: bold; }
+.hilfe2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 0; }
+.hk { border: 3px solid var(--c); border-radius: 14px; background: var(--t); padding: 8px 12px; break-inside: avoid; }
+.hk h3 { margin: 0 0 4px; font-size: 20px; }
+.hk p { margin: 3px 0; font-size: 15px; }
+table.platz th, table.platz td { text-align: center; }
+table.platz td.blank { height: 46px; }
+#d3-a1 td.blank, #d3-a2 td.blank, #d1-a3 td.blank { width: 30%; }
+ol.luck { padding-left: 30px; }
+ol.luck li { font-size: 19px; line-height: 2.6; }
+@media (max-width: 640px) { .hilfe2 { grid-template-columns: 1fr; } }
+
 @media print {
   .top, .noprint, .qr-box { display: none !important; }
   body.printing .view:not(.print-target) { display: none !important; }
@@ -660,6 +686,7 @@ var qrcode=function(){function i(t,r){function a(t,r){g=function(t){for(var r=ne
 <button data-view="t3" style="--nc:#8e44ad">3 Ort, Zeit, Grund</button>
 <button data-view="t4" style="--nc:#e07b00">4 Sätze erweitern</button>
 <button data-view="t5" style="--nc:#c0392b">5 Profi</button>
+<button data-view="daz" style="--nc:#0f766e">DAZ</button>
 <span class="sep"></span>
 <button data-view="loesungen" style="--nc:#555b6e">Lösungen</button>
 <button data-view="quiz" style="--nc:#3f9a6a">Quiz</button>
@@ -708,7 +735,7 @@ var qrcode=function(){function i(t,r){function a(t,r){g=function(t){for(var r=ne
     <table class="tab" id="stand"></table>
   </div>
 
-  <div class="tipp noprint" style="margin-top:18px"><b>Für die Lehrkraft:</b> Die Trainings bauen aufeinander auf. Die Lösungen stehen im Lösungsheft (<a href="#loesungen" data-view="loesungen">loesungen.html</a>). Aufgaben mit drei Sternen sind Zusatz für schnelle Kinder.</div>
+  <div class="tipp noprint" style="margin-top:18px"><b>Für die Lehrkraft:</b> Die Trainings bauen aufeinander auf. Die Lösungen stehen im Lösungsheft (<a href="#loesungen" data-view="loesungen">loesungen.html</a>). Aufgaben mit drei Sternen sind Zusatz für schnelle Kinder. Für Kinder mit wenig Deutsch gibt es den Tab <a href="#daz" data-view="daz">DAZ</a>: Spickzettel und drei Arbeitsblätter mit Strichen und Umstellproben.</div>
 </div>
 <script>
 (function () {
@@ -1314,6 +1341,672 @@ var qrcode=function(){function i(t,r){function a(t,r){g=function(t){for(var r=ne
 })();
 </script>
 </section>
+<section id="view-daz" class="view" style="--c:#0f766e">
+<div class="dnav noprint" id="dnav">
+  <button data-dp="spick" class="on">Spickzettel</button>
+  <button data-dp="d1">DAZ 1: Striche sehen</button>
+  <button data-dp="d2">DAZ 2: Striche setzen</button>
+  <button data-dp="d3">DAZ 3: Objekte</button>
+  <button data-dp="loes">Lösungen DAZ</button>
+</div>
+
+<!-- ============ Spickzettel ============ -->
+<div class="dpage on" id="dp-spick">
+<button class="pdf-btn" onclick="window.print()">Als PDF herunterladen</button>
+<div class="page">
+  <div class="banner">
+    <div>
+      <h1>Spickzettel: Satzglieder</h1>
+      <div class="sub">Lege den Zettel neben dein Heft. Hier stehen alle Fragen.</div>
+    </div>
+  </div>
+  <div class="fields"><span>Name:</span><span>Klasse:</span></div>
+
+  <div class="aufgabe">
+    <div class="nr">1</div>
+    <h2>So gehst du vor</h2>
+    <ol class="schritte">
+      <li>Lies den Satz laut.</li>
+      <li>Suche das <b>Verb</b> (das Tuwort). Das ist das <span class="chip r-P">Prädikat</span>. Es steht auf <b>Platz 2</b>.</li>
+      <li>Frage: <b>Wer oder was</b> + Verb? Das ist das <span class="chip r-S">Subjekt</span>.</li>
+      <li>Frage nach dem Rest: Wo? Wann? Warum? Wen oder was? Wem?</li>
+      <li>Mache einen Strich <b class="bar">|</b> zwischen die Satzglieder.</li>
+    </ol>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">2</div>
+    <h2>Meine Fragen</h2>
+    <p id="sz-s1" class="satz1"></p>
+    <table class="tab" id="sz-t1"></table>
+    <p id="sz-s2" class="satz1"></p>
+    <table class="tab" id="sz-t2"></table>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">3</div>
+    <h2>Die Umstellprobe</h2>
+    <p>Du schiebst die Satzglieder an eine andere Stelle. Was <b>zusammen</b> wandert, ist ein Satzglied. Das Verb bleibt immer auf <b>Platz 2</b>.</p>
+    <table class="tab platz" id="sz-um"></table>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">4</div>
+    <h2>Hilfe bei den Objekten</h2>
+    <div class="hilfe2">
+      <div class="hk r-AO">
+        <h3>Wen oder was?</h3>
+        <p>Das, was man isst, kauft, liest oder sieht.</p>
+        <p>Verben: essen, kaufen, lesen, sehen, malen</p>
+        <p><span class="h r-AO" data-l="">einen Apfel</span> &rarr; Der Junge isst einen Apfel.</p>
+      </div>
+      <div class="hk r-DO">
+        <h3>Wem?</h3>
+        <p>Eine Person oder ein Tier bekommt etwas oder bekommt Hilfe.</p>
+        <p>Verben: helfen, geben, schenken, zeigen, gehören</p>
+        <p><span class="h r-DO" data-l="">dem Kind</span> &rarr; Die Mutter hilft dem Kind.</p>
+      </div>
+    </div>
+    <div class="tipp">Manchmal stehen beide Objekte im Satz. Frage zuerst <b>Wem?</b>, dann <b>Wen oder was?</b></div>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">5</div>
+    <h2>Diese Wörter helfen dir</h2>
+    <table class="tab" id="sz-wort"></table>
+  </div>
+</div>
+</div>
+
+<!-- ============ DAZ 1 ============ -->
+<div class="dpage" id="dp-d1">
+<button class="pdf-btn" onclick="window.print()">Als PDF herunterladen</button>
+<div class="page">
+  <div class="banner">
+    <div>
+      <h1>DAZ 1: Ich sehe die Striche</h1>
+      <div class="sub">Die Satzglieder sind schon getrennt. Du suchst und malst.</div>
+    </div>
+    <div class="steps">DAZ <span class="now">1</span><span>2</span><span>3</span></div>
+  </div>
+  <div class="fields"><span>Name:</span><span>Datum:</span><span>Klasse:</span></div>
+  <div class="farbcode">Mein Farbcode: <span class="chip r-P">Prädikat = blau</span> <span class="chip r-S">Subjekt = rot</span></div>
+
+  <div class="merk"><b>Merke:</b> Ein Satz hat Teile. Die Teile heißen <b>Satzglieder</b>. Zwischen den Satzgliedern ist ein Strich <b class="bar">|</b>.<br>Beispiel: <span id="d1-bsp"></span></div>
+
+  <div class="aufgabe">
+    <div class="nr">1</div>
+    <h2>Zähle die Satzglieder <span class="stars">&#9733;</span></h2>
+    <p>Zähle die Teile zwischen den Strichen. Schreibe die Zahl auf.</p>
+    <table class="tab" id="d1-a1"></table>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">2</div>
+    <h2>Das Verb ist blau <span class="stars">&#9733;</span></h2>
+    <p>Male das <span class="chip r-P">Prädikat</span> blau an. Das Verb steht auf Platz 2.</p>
+    <ol class="circ satz" id="d1-a2"></ol>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">3</div>
+    <h2>Wer oder was? Das Subjekt <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Lies die Frage. Schreibe die Antwort auf. Das ist das <span class="chip r-S">Subjekt</span>. Male es rot an.</p>
+    <table class="tab" id="d1-a3"></table>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">4</div>
+    <h2>Wo? Wann? Warum? <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Kreuze an. Schau auf deinen Spickzettel.</p>
+    <div id="d1-a4"></div>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">5</div>
+    <h2>Umstellprobe: Schreibe neu <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Schiebe ein Satzglied an den Anfang. Das Verb bleibt auf Platz 2. Schreibe den neuen Satz auf.</p>
+    <div class="tipp">Beispiel: Der Hund | schläft | im Garten. &rarr; <b>Im Garten</b> schläft der Hund.</div>
+    <div id="d1-a5"></div>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">6</div>
+    <h2>Baue den Satz <span class="stars">&#9733;&#9733;&#9733;</span></h2>
+    <p>Die Satzglieder sind durcheinander. Schreibe einen richtigen Satz. Das Verb steht auf Platz 2.</p>
+    <div id="d1-a6"></div>
+  </div>
+
+  <div class="check">
+    <b>Das kann ich:</b>
+    <span class="opt"><i class="box"></i>sicher</span>
+    <span class="opt"><i class="box"></i>fast</span>
+    <span class="opt"><i class="box"></i>muss noch üben</span>
+  </div>
+</div>
+</div>
+
+<!-- ============ DAZ 2 ============ -->
+<div class="dpage" id="dp-d2">
+<button class="pdf-btn" onclick="window.print()">Als PDF herunterladen</button>
+<div class="page">
+  <div class="banner">
+    <div>
+      <h1>DAZ 2: Ich setze die Striche</h1>
+      <div class="sub">Jetzt trennst du die Satzglieder selbst. Die Umstellprobe hilft dir.</div>
+    </div>
+    <div class="steps">DAZ <span>1</span><span class="now">2</span><span>3</span></div>
+  </div>
+  <div class="fields"><span>Name:</span><span>Datum:</span><span>Klasse:</span></div>
+  <div class="farbcode">Mein Farbcode:
+    <span class="chip r-P">Prädikat</span> <span class="chip r-S">Subjekt</span>
+    <span class="chip r-ORT">Ort</span> <span class="chip r-ZEIT">Zeit</span> <span class="chip r-GRUND">Grund</span>
+  </div>
+
+  <div class="merk"><b>Merke:</b> Schiebe Wörter im Satz hin und her. Wörter, die <b>zusammen</b> wandern, sind ein Satzglied. Dort machst du <b>keinen</b> Strich.</div>
+
+  <div class="aufgabe">
+    <div class="nr">1</div>
+    <h2>Setze die Striche <span class="stars">&#9733;</span></h2>
+    <p>Mache einen Strich <b class="bar">|</b> zwischen die Satzglieder. Beispiel: <span id="d2-bsp"></span></p>
+    <ol class="circ satz" id="d2-a1"></ol>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">2</div>
+    <h2>Umstellprobe in der Tabelle <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Die erste Zeile ist fertig. Schreibe die Satzglieder in die anderen Zeilen. Der Anfang steht schon da.</p>
+    <div id="d2-a2"></div>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">3</div>
+    <h2>Fragen und Antworten <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Frage: Wer oder was? Was tut er? Wo, wann oder warum? Schreibe die Antworten auf.</p>
+    <table class="tab eng" id="d2-a3"></table>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">4</div>
+    <h2>Male die Satzglieder an <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Die Striche sind da. Male jedes Satzglied in der richtigen Farbe an.</p>
+    <ol class="circ satz" id="d2-a4"></ol>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">5</div>
+    <h2>Baue Sätze <span class="stars">&#9733;&#9733;&#9733;</span></h2>
+    <p>Schreibe mit den Satzgliedern <b>zwei</b> verschiedene Sätze. Fange jedes Mal anders an.</p>
+    <div id="d2-a5"></div>
+  </div>
+
+  <div class="check">
+    <b>Das kann ich:</b>
+    <span class="opt"><i class="box"></i>sicher</span>
+    <span class="opt"><i class="box"></i>fast</span>
+    <span class="opt"><i class="box"></i>muss noch üben</span>
+  </div>
+</div>
+</div>
+
+<!-- ============ DAZ 3 ============ -->
+<div class="dpage" id="dp-d3">
+<button class="pdf-btn" onclick="window.print()">Als PDF herunterladen</button>
+<div class="page">
+  <div class="banner">
+    <div>
+      <h1>DAZ 3: Objekte mit Hilfe</h1>
+      <div class="sub">Zwei neue Fragen: Wen oder was? Wem? Wir üben Schritt für Schritt.</div>
+    </div>
+    <div class="steps">DAZ <span>1</span><span>2</span><span class="now">3</span></div>
+  </div>
+  <div class="fields"><span>Name:</span><span>Datum:</span><span>Klasse:</span></div>
+  <div class="farbcode">Mein Farbcode:
+    <span class="chip r-AO">Wen oder was? = grün</span> <span class="chip r-DO">Wem? = orange</span>
+  </div>
+
+  <div class="merk">
+    <b>Merke:</b> Frage immer mit dem <b>Verb</b>. <span id="d3-bsp"></span>
+    <div class="hilfe2" style="margin-top:8px">
+      <div class="hk r-AO"><h3>Wen oder was?</h3><p>Wen oder was gibt der Junge? &rarr; <b>einen Knochen</b></p></div>
+      <div class="hk r-DO"><h3>Wem?</h3><p>Wem gibt der Junge einen Knochen? &rarr; <b>dem Hund</b></p></div>
+    </div>
+  </div>
+  <div class="tipp">Verben mit <b>Wem?</b>: helfen, geben, schenken, zeigen, gehören. Verben mit <b>Wen oder was?</b>: essen, kaufen, lesen, sehen, malen.</div>
+
+  <div class="aufgabe">
+    <div class="nr">1</div>
+    <h2>Die Frage ist da, du antwortest <span class="stars">&#9733;</span></h2>
+    <p>Lies die Frage. Schreibe die Antwort auf.</p>
+    <table class="tab" id="d3-a1"></table>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">2</div>
+    <h2>Du schreibst die Frage <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Der Anfang der Frage steht schon da. Schreibe die Frage zu Ende. Dann schreibe die Antwort.</p>
+    <table class="tab" id="d3-a2"></table>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">3</div>
+    <h2>Wen oder was? Oder Wem? <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Der unterstrichene Teil ist ein Objekt. Kreuze an.</p>
+    <div id="d3-a3"></div>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">4</div>
+    <h2>Setze ein <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Schreibe die passenden Wörter in die Lücken. Jedes Wort passt nur einmal.</p>
+    <div class="wort" id="d3-wort"></div>
+    <ol class="luck" id="d3-a4"></ol>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">5</div>
+    <h2>Male alles an <span class="stars">&#9733;&#9733;&#9733;</span></h2>
+    <p>Die Striche sind da. Male jedes Satzglied in seiner Farbe an. Schau auf den Spickzettel.</p>
+    <div class="farbcode">
+      <span class="chip r-P">Prädikat</span> <span class="chip r-S">Subjekt</span> <span class="chip r-AO">Wen oder was?</span>
+      <span class="chip r-DO">Wem?</span> <span class="chip r-ORT">Ort</span> <span class="chip r-ZEIT">Zeit</span>
+    </div>
+    <ol class="circ satz" id="d3-a5"></ol>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">6</div>
+    <h2>Mein eigener Satz <span class="stars">&#9733;&#9733;&#9733;</span></h2>
+    <p>Das Verb steht schon da. Fülle die anderen Kästchen aus. Schreibe dann den ganzen Satz auf.</p>
+    <div id="d3-a6"></div>
+  </div>
+
+  <div class="check">
+    <b>Das kann ich:</b>
+    <span class="opt"><i class="box"></i>sicher</span>
+    <span class="opt"><i class="box"></i>fast</span>
+    <span class="opt"><i class="box"></i>muss noch üben</span>
+  </div>
+</div>
+</div>
+
+<!-- ============ Lösungen ============ -->
+<div class="dpage" id="dp-loes">
+<button class="pdf-btn" onclick="window.print()">Als PDF herunterladen</button>
+<div class="page">
+  <div class="banner">
+    <div>
+      <h1>Lösungen und Tipps: DAZ</h1>
+      <div class="sub">Für die Lehrkraft. Zum Spickzettel und zu DAZ 1 bis 3.</div>
+    </div>
+  </div>
+  <div class="tipp" style="margin-top:12px">Bei freien Aufgaben sind die Lösungen Beispiele. Andere Sätze sind richtig, wenn das Verb auf Platz 2 steht und die Satzglieder ganz bleiben.</div>
+  <div id="d-out"></div>
+</div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var esc = W.esc;
+  function $(s) { return document.querySelector('#view-daz ' + s); }
+
+  /* ---------- Hilfen ---------- */
+  var BAR = '<b class="bar">|</b>';
+  function bars(str) {
+    return W.parse(str).map(function (s) { return esc(s.text) + esc(s.punct); }).join(BAR);
+  }
+  function cbars(str) {
+    return W.parse(str).map(function (s) {
+      return s.role
+        ? '<span class="h r-' + s.role + '" data-l="' + W.ROLES[s.role] + '">' + esc(s.text) + '</span>' + esc(s.punct)
+        : esc(s.text) + esc(s.punct);
+    }).join(' ' + BAR + ' ');
+  }
+  function list(sel, arr, solve) {
+    $(sel).innerHTML = arr.map(function (s) { return '<li>' + (solve ? cbars(s) : bars(s)) + '</li>'; }).join('');
+  }
+  function byRole(str, role) {
+    return W.parse(str).filter(function (s) { return s.role === role; }).map(function (s) { return s.text; }).join(' ... ');
+  }
+  function rest(str) {
+    return W.parse(str).filter(function (s) { return s.role !== 'S' && s.role !== 'P'; }).map(function (s) { return s.text; }).join(' ... ');
+  }
+  function kaesten(arr) {
+    return arr.map(function (t) { return '<span class="kasten">' + esc(t) + '</span>'; }).join('');
+  }
+  function bsp(txt) { return '<span class="sol-txt">' + txt + '</span>'; }
+
+  /* ---------- Daten (Arbeitsblätter und Lösungen lesen daraus) ---------- */
+  var Z = {
+    basis1: '[Heute]ZEIT [bellt]P [der Hund]S [im Garten]ORT [vor Angst]GRUND.',
+    basis2: '[Der Junge]S [gibt]P [dem Hund]DO [einen Knochen]AO.',
+    fragen: [
+      ['P', 'Was tut jemand?', 'Was passiert?', 'basis1', 'blau'],
+      ['S', 'Wer oder was + Verb?', 'Wer bellt?', 'basis1', 'rot'],
+      ['ORT', 'Wo?', 'Wo bellt der Hund?', 'basis1', 'lila'],
+      ['ZEIT', 'Wann?', 'Wann bellt der Hund?', 'basis1', 'türkis'],
+      ['GRUND', 'Warum?', 'Warum bellt der Hund?', 'basis1', 'pink'],
+      ['AO', 'Wen oder was?', 'Wen oder was gibt der Junge?', 'basis2', 'grün'],
+      ['DO', 'Wem?', 'Wem gibt der Junge einen Knochen?', 'basis2', 'orange']
+    ],
+    umstell: [
+      '[Der Hund]S [schläft]P [heute]ZEIT [im Garten]ORT.',
+      '[Heute]ZEIT [schläft]P [der Hund]S [im Garten]ORT.',
+      '[Im Garten]ORT [schläft]P [der Hund]S [heute]ZEIT.'
+    ],
+    wort: [
+      ['Satzglied', 'Ein Teil im Satz. Es kann ein Wort sein oder mehrere Wörter.'],
+      ['Verb', 'Das Tuwort. Zum Beispiel: spielen, essen, schlafen.'],
+      ['Prädikat', 'Das Verb im Satz. Es steht auf Platz 2.'],
+      ['Subjekt', 'Wer oder was etwas tut.'],
+      ['Objekt', 'Wer oder was etwas bekommt. Fragen: Wen oder was? Wem?'],
+      ['Ort, Zeit, Grund', 'Wo? Wann? Warum? Das sind Zusatz-Informationen.']
+    ],
+
+    d1: {
+      bsp: '[Der Hund]S [schläft]P [im Garten]ORT.',
+      zaehl: [
+        '[Der Hund]S [schläft]P.',
+        '[Mia]S [liest]P [ein Buch]AO.',
+        '[Heute]ZEIT [spielt]P [Tim]S [Fußball]AO.',
+        '[Die Katze]S [sitzt]P [auf dem Sofa]ORT.',
+        '[Am Montag]ZEIT [lernen]P [wir]S [Deutsch]AO.'
+      ],
+      praed: [
+        '[Der Hund]S [schläft]P [im Körbchen]ORT.',
+        '[Mia]S [spielt]P [heute]ZEIT.',
+        '[Wir]S [essen]P [in der Schule]ORT.',
+        '[Tom]S [lacht]P [vor Freude]GRUND.',
+        '[Am Morgen]ZEIT [singt]P [der Vogel]S.',
+        '[Die Kinder]S [lernen]P [im Klassenzimmer]ORT.'
+      ],
+      subj: [
+        [0, 'Wer oder was schläft?'],
+        [1, 'Wer oder was spielt?'],
+        [2, 'Wer oder was isst?'],
+        [4, 'Wer oder was singt?']
+      ],
+      ortzeit: [
+        { t: '<b>im Garten</b>', a: 'ORT' },
+        { t: '<b>am Montag</b>', a: 'ZEIT' },
+        { t: '<b>aus Hunger</b>', a: 'GRUND' },
+        { t: '<b>in der Schule</b>', a: 'ORT' },
+        { t: '<b>heute</b>', a: 'ZEIT' },
+        { t: '<b>vor Freude</b>', a: 'GRUND' },
+        { t: '<b>morgen</b>', a: 'ZEIT' },
+        { t: '<b>auf dem Sofa</b>', a: 'ORT' }
+      ],
+      umst: [
+        ['[Der Hund]S [schläft]P [im Garten]ORT.', 'Im Garten', 'Im Garten schläft der Hund.'],
+        ['[Mia]S [spielt]P [heute]ZEIT.', 'Heute', 'Heute spielt Mia.'],
+        ['[Wir]S [essen]P [in der Schule]ORT.', 'In der Schule', 'In der Schule essen wir.']
+      ],
+      bauen: [
+        [['schläft', 'Lena', 'im Bett'], 'Lena schläft im Bett.'],
+        [['im Park', 'spielt', 'Tim'], 'Tim spielt im Park.'],
+        [['kocht', 'Papa', 'heute'], 'Papa kocht heute. Oder: Heute kocht Papa.']
+      ]
+    },
+
+    d2: {
+      bsp: '[Der kleine Hund]S | [schläft]P | [im Garten]ORT.',
+      striche: [
+        '[Die Katze]S [schläft]P [auf dem Sofa]ORT.',
+        '[Meine Schwester]S [kocht]P [heute]ZEIT.',
+        '[Der Lehrer]S [lacht]P [vor Freude]GRUND.',
+        '[Am Samstag]ZEIT [spielen]P [wir]S [im Park]ORT.',
+        '[Der kleine Vogel]S [singt]P [am Morgen]ZEIT.',
+        '[Im Bus]ORT [sitzen]P [viele Kinder]S.'
+      ],
+      tabellen: [
+        [
+          '[Der Hund]S [schläft]P [heute]ZEIT [im Garten]ORT.',
+          '[Heute]ZEIT [schläft]P [der Hund]S [im Garten]ORT.',
+          '[Im Garten]ORT [schläft]P [der Hund]S [heute]ZEIT.'
+        ],
+        [
+          '[Wir]S [spielen]P [am Montag]ZEIT [im Park]ORT.',
+          '[Am Montag]ZEIT [spielen]P [wir]S [im Park]ORT.',
+          '[Im Park]ORT [spielen]P [wir]S [am Montag]ZEIT.'
+        ]
+      ],
+      fragen: [
+        '[Opa]S [schläft]P [im Sessel]ORT.',
+        '[Heute]ZEIT [kocht]P [Mama]S.',
+        '[Die Kinder]S [lachen]P [vor Freude]GRUND.',
+        '[Am Abend]ZEIT [schläft]P [das Baby]S.',
+        '[Der Bus]S [kommt]P [um acht Uhr]ZEIT.'
+      ],
+      farben: [
+        '[Der Hund]S [bellt]P [aus Angst]GRUND.',
+        '[Heute]ZEIT [lernen]P [die Kinder]S [im Klassenzimmer]ORT.',
+        '[Mein Opa]S [wohnt]P [in Bayern]ORT.',
+        '[Die Blumen]S [wachsen]P [im Sommer]ZEIT.',
+        '[Am Abend]ZEIT [weint]P [das Baby]S [vor Hunger]GRUND.',
+        '[Meine Freundin]S [wartet]P [vor der Schule]ORT.'
+      ],
+      bauen: [
+        [['heute', 'Lisa', 'lernt', 'in der Bibliothek'],
+          ['Lisa lernt heute in der Bibliothek.', 'Heute lernt Lisa in der Bibliothek.', 'In der Bibliothek lernt Lisa heute.']],
+        [['wandern', 'am Sonntag', 'in den Bergen', 'wir'],
+          ['Wir wandern am Sonntag in den Bergen.', 'Am Sonntag wandern wir in den Bergen.', 'In den Bergen wandern wir am Sonntag.']]
+      ]
+    },
+
+    d3: {
+      bsp: '[Der Junge]S [gibt]P [dem Hund]DO [einen Knochen]AO.',
+      a1: [
+        ['[Papa]S [kauft]P [einen Hund]AO.', 'Wen oder was kauft Papa?'],
+        ['[Lena]S [trinkt]P [Wasser]AO.', 'Wen oder was trinkt Lena?'],
+        ['[Der Lehrer]S [hilft]P [dem Kind]DO.', 'Wem hilft der Lehrer?']
+      ],
+      a2: [
+        ['[Oma]S [backt]P [einen Kuchen]AO.', 'Wen oder was', 'Wen oder was backt Oma?', 'einen Kuchen'],
+        ['[Die Katze]S [gehört]P [meiner Oma]DO.', 'Wem', 'Wem gehört die Katze?', 'meiner Oma'],
+        ['[Lisa]S [hilft]P [ihrem Bruder]DO.', 'Wem', 'Wem hilft Lisa?', 'ihrem Bruder'],
+        ['[Der Hund]S [frisst]P [seinen Knochen]AO.', 'Wen oder was', 'Wen oder was frisst der Hund?', 'seinen Knochen']
+      ],
+      a3: [
+        { t: 'Ich esse <u>einen Apfel</u>.', a: 'AO' },
+        { t: 'Ich helfe <u>dem Opa</u>.', a: 'DO' },
+        { t: 'Mia liest <u>ein Buch</u>.', a: 'AO' },
+        { t: 'Das Buch gehört <u>meiner Schwester</u>.', a: 'DO' },
+        { t: 'Wir kaufen <u>ein Eis</u>.', a: 'AO' },
+        { t: 'Papa zeigt <u>dem Kind</u> ein Bild.', a: 'DO' }
+      ],
+      wort: ['ein Eis', 'einen Knochen', 'der Oma', 'dem Kind', 'die Hausaufgaben'],
+      a4: [
+        ['Lena isst ', ' (Wen oder was?).', 'ein Eis'],
+        ['Der Hund frisst ', ' (Wen oder was?).', 'einen Knochen'],
+        ['Der Junge hilft ', ' (Wem?).', 'der Oma'],
+        ['Die Schüler machen ', ' (Wen oder was?).', 'die Hausaufgaben'],
+        ['Das Buch gehört ', ' (Wem?).', 'dem Kind']
+      ],
+      a5: [
+        '[Der Junge]S [gibt]P [dem Hund]DO [einen Knochen]AO.',
+        '[Heute]ZEIT [schenkt]P [Mia]S [ihrer Oma]DO [eine Blume]AO.',
+        '[Mama]S [kauft]P [im Supermarkt]ORT [frisches Brot]AO.',
+        '[Der Lehrer]S [hilft]P [den Kindern]DO [im Klassenzimmer]ORT.',
+        '[Die Kinder]S [essen]P [in der Pause]ZEIT [Äpfel]AO.'
+      ],
+      a6: [
+        ['schenkt', 'Mia schenkt ihrer Oma eine Blume.'],
+        ['zeigt', 'Der Lehrer zeigt den Kindern ein Bild.'],
+        ['gibt', 'Papa gibt dem Hund einen Knochen.']
+      ]
+    }
+  };
+
+  /* ---------- Spickzettel ---------- */
+  var NAMEN = { P: 'Prädikat', S: 'Subjekt', ORT: 'Ort', ZEIT: 'Zeit', GRUND: 'Grund', AO: 'Akk.-Objekt', DO: 'Dat.-Objekt' };
+  function frageTabelle(sel, satzSel, basis, rows) {
+    $(satzSel).innerHTML = '<b>Beispielsatz:</b> ' + cbars(Z[basis]).replace(/ <b class="bar">\|<\/b> /g, ' ');
+    $(sel).innerHTML = '<thead><tr><th>Satzglied</th><th>Frage</th><th>Beispiel</th><th>Farbe</th></tr></thead><tbody>' +
+      rows.map(function (f) {
+        return '<tr><td><span class="chip r-' + f[0] + '">' + NAMEN[f[0]] + '</span></td>' +
+          '<td><b>' + f[1] + '</b><br><small>' + f[2] + '</small></td>' +
+          '<td>' + W.colored(Z[f[3]], [f[0]]) + '</td><td>' + f[4] + '</td></tr>';
+      }).join('') + '</tbody>';
+  }
+  frageTabelle('#sz-t1', '#sz-s1', 'basis1', Z.fragen.slice(0, 5));
+  frageTabelle('#sz-t2', '#sz-s2', 'basis2', Z.fragen.slice(5));
+
+  function platzTabelle(rows, solve, firstOnly) {
+    var h = '<thead><tr><th>Platz 1</th><th>Platz 2<br><small>Verb</small></th><th>Platz 3</th><th>Platz 4</th></tr></thead><tbody>';
+    rows.forEach(function (r, i) {
+      h += '<tr>' + W.parse(r).map(function (s, k) {
+        var txt = esc(s.text) + esc(s.punct);
+        if (solve || i === 0) return '<td>' + (solve ? '<span class="h r-' + s.role + '" data-l="' + W.ROLES[s.role] + '">' + esc(s.text) + '</span>' + esc(s.punct) : txt) + '</td>';
+        return firstOnly && k === 0 ? '<td><b>' + txt + '</b></td>' : '<td class="blank"></td>';
+      }).join('') + '</tr>';
+    });
+    return h + '</tbody>';
+  }
+  $('#sz-um').innerHTML = platzTabelle(Z.umstell, true);
+  $('#sz-wort').innerHTML = '<tbody>' + Z.wort.map(function (w) {
+    return '<tr><td><b>' + w[0] + '</b></td><td>' + w[1] + '</td></tr>';
+  }).join('') + '</tbody>';
+
+  /* ---------- DAZ 1 ---------- */
+  var D1 = Z.d1;
+  $('#d1-bsp').innerHTML = bars(D1.bsp);
+  $('#d1-a1').innerHTML = '<thead><tr><th></th><th>Satz</th><th>Satzglieder</th></tr></thead><tbody>' +
+    D1.zaehl.map(function (s, i) { return '<tr><td class="n">' + (i + 1) + '</td><td>' + bars(s) + '</td><td class="blank"></td></tr>'; }).join('') + '</tbody>';
+  list('#d1-a2', D1.praed);
+  $('#d1-a3').innerHTML = '<thead><tr><th></th><th>Satz</th><th>Frage</th><th>Antwort</th></tr></thead><tbody>' +
+    D1.subj.map(function (x, i) {
+      return '<tr><td class="n">' + (i + 1) + '</td><td>' + bars(D1.praed[x[0]]) + '</td><td><b>' + x[1] + '</b></td><td class="blank"></td></tr>';
+    }).join('') + '</tbody>';
+  W.zuordnen('#d1-a4', D1.ortzeit, [['ORT', 'Ort (Wo?)'], ['ZEIT', 'Zeit (Wann?)'], ['GRUND', 'Grund (Warum?)']], false, 'Satzglied');
+  $('#d1-a5').innerHTML = D1.umst.map(function (u, i) {
+    return '<p><b>' + (i + 1) + '.</b> ' + bars(u[0]) + '<br>Beginne mit: <span class="kasten">' + esc(u[1]) + '</span></p>' + W.lines(1);
+  }).join('');
+  $('#d1-a6').innerHTML = D1.bauen.map(function (b, i) {
+    return '<p><b>' + (i + 1) + '.</b> ' + kaesten(b[0]) + '</p>' + W.lines(1);
+  }).join('');
+
+  /* ---------- DAZ 2 ---------- */
+  var D2 = Z.d2;
+  $('#d2-bsp').innerHTML = bars(D2.bsp);
+  $('#d2-a1').innerHTML = D2.striche.map(function (s) { return '<li>' + esc(W.plain(s)) + '</li>'; }).join('');
+  $('#d2-a2').innerHTML = D2.tabellen.map(function (t, i) {
+    return '<p><b>Satz ' + 'AB'[i] + '</b></p><table class="tab platz">' + platzTabelle(t, false, true) + '</table>';
+  }).join('');
+  $('#d2-a3').innerHTML = '<thead><tr><th></th><th>Satz</th><th>Wer oder was?</th><th>Was tut er?</th><th>Wo? Wann? Warum?</th></tr></thead><tbody>' +
+    D2.fragen.map(function (s, i) {
+      return '<tr><td class="n">' + (i + 1) + '</td><td>' + esc(W.plain(s)) + '</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>';
+    }).join('') + '</tbody>';
+  list('#d2-a4', D2.farben);
+  $('#d2-a5').innerHTML = D2.bauen.map(function (b, i) {
+    return '<p><b>' + 'AB'[i] + '.</b> ' + kaesten(b[0]) + '</p>' + W.lines(2);
+  }).join('');
+
+  /* ---------- DAZ 3 ---------- */
+  var D3 = Z.d3;
+  $('#d3-bsp').innerHTML = bars(D3.bsp);
+  $('#d3-a1').innerHTML = '<thead><tr><th></th><th>Satz</th><th>Frage</th><th>Antwort</th></tr></thead><tbody>' +
+    D3.a1.map(function (x, i) {
+      return '<tr><td class="n">' + (i + 1) + '</td><td>' + bars(x[0]) + '</td><td><b>' + x[1] + '</b></td><td class="blank"></td></tr>';
+    }).join('') + '</tbody>';
+  $('#d3-a2').innerHTML = '<thead><tr><th></th><th>Satz</th><th>Frage</th><th>Antwort</th></tr></thead><tbody>' +
+    D3.a2.map(function (x, i) {
+      return '<tr><td class="n">' + (i + 1) + '</td><td>' + bars(x[0]) + '</td><td><b>' + x[1] + '</b> ...<br><span class="gap l"></span></td><td class="blank"></td></tr>';
+    }).join('') + '</tbody>';
+  W.zuordnen('#d3-a3', D3.a3, [['AO', 'Wen oder was?'], ['DO', 'Wem?']]);
+  $('#d3-wort').innerHTML = '<b>Wortspeicher:</b> ' + D3.wort.map(function (w) { return '<i>' + esc(w) + '</i>'; }).join(' ');
+  $('#d3-a4').innerHTML = D3.a4.map(function (x) {
+    return '<li>' + esc(x[0]) + '<span class="gap l"></span>' + esc(x[1]) + '</li>';
+  }).join('');
+  list('#d3-a5', D3.a5);
+  $('#d3-a6').innerHTML = '<table class="tab eng"><thead><tr><th>Subjekt<br>Wer?</th><th>Prädikat</th><th>Wem?</th><th>Wen oder was?</th></tr></thead><tbody>' +
+    D3.a6.map(function (x) { return '<tr><td class="blank"></td><td><b>' + x[0] + '</b></td><td class="blank"></td><td class="blank"></td></tr>'; }).join('') +
+    '</tbody></table>' + W.lines(3);
+
+  /* ---------- Lösungen ---------- */
+  var out = '';
+  function sec(title, nr) { return '<div class="aufgabe"><div class="nr">' + nr + '</div><h2>' + title + '</h2>'; }
+  function head(txt) { return '<h2 style="color:#0f766e;margin:26px 0 0">' + txt + '</h2>'; }
+
+  out += head('Tipps für den Einsatz');
+  out += '<div class="aufgabe"><div class="nr">&#9733;</div><h2>So arbeitest du mit den Blättern</h2><ul>' +
+    '<li>Den Spickzettel zuerst gemeinsam lesen. Laminiert liegt er bei jeder Aufgabe auf dem Tisch.</li>' +
+    '<li>Die Reihenfolge ist wichtig: In DAZ 1 sind die Striche schon da. In DAZ 2 setzen die Kinder die Striche selbst. In DAZ 3 kommen die Objekte dazu.</li>' +
+    '<li>Ort, Zeit und Grund fallen den Kindern meist leicht. Die Objekte brauchen mehr Zeit. Erst spielen: "Ich gebe dir einen Stift." Wer gibt wem was? Dann erst aufschreiben.</li>' +
+    '<li>Das Verb auf Platz 2 ist der sicherste Anker. Immer zuerst das Verb suchen lassen.</li>' +
+    '<li>Typischer Fehler: "Der kleine Hund" wird in zwei Satzglieder geteilt. Hilfe: Umstellprobe. Wandert der ganze Block zusammen, bleibt er ein Satzglied.</li>' +
+    '<li>Die Kinder dürfen Fragewörter und Verben in ihrer Erstsprache neben die deutschen Wörter schreiben.</li>' +
+    '<li>Passend zum Thema: Ein Strich-Satz kann auch als Kärtchen gelegt werden (Satzglieder ausschneiden und umlegen).</li>' +
+    '</ul></div>';
+
+  out += head('DAZ 1: Ich sehe die Striche');
+  out += sec('Aufgabe 1: Zähle die Satzglieder', 1) + '<table class="tab"><tbody>' + D1.zaehl.map(function (s, i) {
+    return '<tr><td class="n">' + (i + 1) + '</td><td>' + bars(s) + '</td><td class="sol-txt">' + W.parse(s).length + '</td></tr>';
+  }).join('') + '</tbody></table></div>';
+  out += sec('Aufgabe 2: Das Verb ist blau', 2) + '<ol class="circ sol satz">' + D1.praed.map(function (s) {
+    return '<li>' + cbars(s.replace(/\]([A-Z]+)/g, function (m, c) { return c === 'P' ? m : ']'; })) + '</li>';
+  }).join('') + '</ol></div>';
+  out += sec('Aufgabe 3: Das Subjekt', 3) + '<table class="tab"><tbody>' + D1.subj.map(function (x, i) {
+    return '<tr><td class="n">' + (i + 1) + '</td><td><b>' + x[1] + '</b></td><td class="sol-txt">' + byRole(D1.praed[x[0]], 'S') + '</td></tr>';
+  }).join('') + '</tbody></table></div>';
+  out += sec('Aufgabe 4: Ort, Zeit, Grund', 4) + '<table class="tab"><tbody>' + D1.ortzeit.map(function (z, i) {
+    var o = { ORT: 'Ort (Wo?)', ZEIT: 'Zeit (Wann?)', GRUND: 'Grund (Warum?)' }[z.a];
+    return '<tr><td class="n">' + (i + 1) + '</td><td>' + z.t + '</td><td class="sol-txt">' + o + '</td></tr>';
+  }).join('') + '</tbody></table></div>';
+  out += sec('Aufgabe 5: Umstellprobe', 5) + '<ol>' + D1.umst.map(function (u) { return '<li>' + bsp(u[2]) + '</li>'; }).join('') + '</ol></div>';
+  out += sec('Aufgabe 6: Baue den Satz', 6) + '<ol>' + D1.bauen.map(function (b) { return '<li>' + bsp(b[1]) + '</li>'; }).join('') + '</ol></div>';
+
+  out += head('DAZ 2: Ich setze die Striche');
+  out += sec('Aufgabe 1: Striche setzen', 1) + '<ol class="circ sol satz">' + D2.striche.map(function (s) {
+    return '<li>' + cbars(s) + '</li>';
+  }).join('') + '</ol></div>';
+  out += sec('Aufgabe 2: Umstellprobe', 2) + D2.tabellen.map(function (t, i) {
+    return '<p><b>Satz ' + 'AB'[i] + '</b></p><table class="tab platz">' + platzTabelle(t, true) + '</table>';
+  }).join('') + '<p class="note">Wichtig: Das Verb steht in jeder Zeile auf Platz 2.</p></div>';
+  out += sec('Aufgabe 3: Fragen und Antworten', 3) + '<table class="tab eng"><tbody>' + D2.fragen.map(function (s, i) {
+    return '<tr><td class="n">' + (i + 1) + '</td><td>' + esc(W.plain(s)) + '</td><td class="sol-txt">' + byRole(s, 'S') + '</td><td class="sol-txt">' + byRole(s, 'P') + '</td><td class="sol-txt">' + rest(s) + '</td></tr>';
+  }).join('') + '</tbody></table></div>';
+  out += sec('Aufgabe 4: Male die Satzglieder an', 4) + '<ol class="circ sol satz">' + D2.farben.map(function (s) {
+    return '<li>' + cbars(s) + '</li>';
+  }).join('') + '</ol></div>';
+  out += sec('Aufgabe 5: Baue Sätze (Beispiele)', 5) + D2.bauen.map(function (b, i) {
+    return '<p><b>' + 'AB'[i] + '.</b></p><ul>' + b[1].map(function (x) { return '<li>' + bsp(x) + '</li>'; }).join('') + '</ul>';
+  }).join('') + '</div>';
+
+  out += head('DAZ 3: Objekte mit Hilfe');
+  out += sec('Aufgabe 1: Die Frage ist da', 1) + '<table class="tab"><tbody>' + D3.a1.map(function (x, i) {
+    var ro = /Wem/.test(x[1]) ? 'DO' : 'AO';
+    return '<tr><td class="n">' + (i + 1) + '</td><td><b>' + x[1] + '</b></td><td class="sol-txt">' + byRole(x[0], ro) + '</td></tr>';
+  }).join('') + '</tbody></table></div>';
+  out += sec('Aufgabe 2: Du schreibst die Frage', 2) + '<table class="tab"><tbody>' + D3.a2.map(function (x, i) {
+    return '<tr><td class="n">' + (i + 1) + '</td><td class="sol-txt">' + x[2] + '</td><td class="sol-txt">' + x[3] + '</td></tr>';
+  }).join('') + '</tbody></table></div>';
+  out += sec('Aufgabe 3: Wen oder was? Oder Wem?', 3) + '<table class="tab"><tbody>' + D3.a3.map(function (z, i) {
+    return '<tr><td class="n">' + (i + 1) + '</td><td>' + z.t + '</td><td class="sol-txt">' + (z.a === 'AO' ? 'Wen oder was?' : 'Wem?') + '</td></tr>';
+  }).join('') + '</tbody></table></div>';
+  out += sec('Aufgabe 4: Setze ein', 4) + '<ol>' + D3.a4.map(function (x) {
+    return '<li>' + esc(x[0]) + bsp(x[2]) + esc(x[1]) + '</li>';
+  }).join('') + '</ol><p class="note">Zu "gehört" und "hilft" passen auch andere Wem-Wörter aus dem Speicher, wenn der Satz sinnvoll bleibt.</p></div>';
+  out += sec('Aufgabe 5: Male alles an', 5) + '<ol class="circ sol satz">' + D3.a5.map(function (s) {
+    return '<li>' + cbars(s) + '</li>';
+  }).join('') + '</ol></div>';
+  out += sec('Aufgabe 6: Mein eigener Satz (Beispiele)', 6) + '<ol>' + D3.a6.map(function (x) { return '<li>' + bsp(x[1]) + '</li>'; }).join('') + '</ol></div>';
+
+  $('#d-out').innerHTML = out;
+
+  /* ---------- Unterseiten umschalten ---------- */
+  $('#dnav').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-dp]');
+    if (!b) return;
+    Array.prototype.forEach.call(document.querySelectorAll('#dnav button'), function (x) { x.classList.toggle('on', x === b); });
+    Array.prototype.forEach.call(document.querySelectorAll('#view-daz .dpage'), function (p) {
+      p.classList.toggle('on', p.id === 'dp-' + b.getAttribute('data-dp'));
+    });
+    window.scrollTo(0, 0);
+  });
+})();
+</script>
+</section>
 <section id="view-quiz" class="view">
   <div class="qscreen" id="q-map">
     <div class="qhead">
@@ -1371,7 +2064,7 @@ var qrcode=function(){function i(t,r){function a(t,r){g=function(t){for(var r=ne
   /* =========================================================
      Navigation
      ========================================================= */
-  var VIEWS = ['start', 't1', 't2', 't3', 't4', 't5', 'loesungen', 'quiz'];
+  var VIEWS = ['start', 't1', 't2', 't3', 't4', 't5', 'daz', 'loesungen', 'quiz'];
   var KID = /[?&]kind(&|=|$)/.test(location.search);
   var QUIZ_URL = 'https://jomayer2204-sys.github.io/satzglieder-training/?kind#quiz';
   var STORE_KEY = 'satzglieder-training-v1';
