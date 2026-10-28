@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Satzglieder-Training</title>
+<style>
+:root {
+  --c: #2f6fd0;
+  --ink: #2a2a3a;
+  --muted: #666b78;
+  --c-S: #d64545;     --t-S: #fde3e3;
+  --c-P: #2563c9;     --t-P: #dbe7fb;
+  --c-AO: #1f9d55;    --t-AO: #d9f2e2;
+  --c-DO: #e07b00;    --t-DO: #fde8cc;
+  --c-GO: #8a6d00;    --t-GO: #f3ead0;
+  --c-ORT: #8e44ad;   --t-ORT: #eedcf6;
+  --c-ZEIT: #0e8f9a;  --t-ZEIT: #d5f0f2;
+  --c-GRUND: #c0486e; --t-GRUND: #fadde7;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 18px;
+  background: #efe9d9; color: var(--ink);
+  font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", Calibri, "Segoe UI", sans-serif;
+  font-size: 17px; line-height: 1.45;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.pdf-btn {
+  display: block; margin: 0 auto 16px; padding: 12px 26px; border: 0; border-radius: 12px;
+  background: #2f6fd0; color: #fff; font: inherit; font-weight: bold; font-size: 17px; cursor: pointer;
+}
+.pdf-btn:hover { background: #2559a8; }
+.page {
+  max-width: 820px; margin: 0 auto; background: #fffdf6;
+  border: 5px solid var(--c); border-radius: 24px; padding: 20px 26px 26px;
+}
+.banner {
+  background: var(--c); color: #fff; border-radius: 16px; padding: 12px 20px;
+  display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.banner h1 { margin: 0; font-size: 28px; line-height: 1.15; }
+.banner .sub { font-size: 15px; opacity: .95; }
+.steps { display: flex; gap: 6px; align-items: center; font-size: 14px; }
+.steps span {
+  width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; display: inline-flex;
+  align-items: center; justify-content: center; font-weight: bold; font-size: 14px;
+}
+.steps span.now { background: #fff; color: var(--c); }
+.fields { display: flex; gap: 22px; flex-wrap: wrap; margin: 14px 0 6px; font-size: 15px; }
+.fields span { border-bottom: 2px solid #444; min-width: 150px; display: inline-block; padding: 2px 6px 0 0; }
+
+.farbcode { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0 4px; font-size: 15px; }
+.chip {
+  display: inline-block; padding: 2px 11px; border-radius: 999px; font-weight: bold; font-size: 14px;
+  background: var(--t); color: #222; border: 2.5px solid var(--c);
+}
+.r-S     { --c: var(--c-S);     --t: var(--t-S); }
+.r-P     { --c: var(--c-P);     --t: var(--t-P); }
+.r-AO    { --c: var(--c-AO);    --t: var(--t-AO); }
+.r-DO    { --c: var(--c-DO);    --t: var(--t-DO); }
+.r-GO    { --c: var(--c-GO);    --t: var(--t-GO); }
+.r-ORT   { --c: var(--c-ORT);   --t: var(--t-ORT); }
+.r-ZEIT  { --c: var(--c-ZEIT);  --t: var(--t-ZEIT); }
+.r-GRUND { --c: var(--c-GRUND); --t: var(--t-GRUND); }
+.r-P.chip { border-style: double; border-width: 4px; }
+.r-AO.chip { border-style: dashed; }
+.r-DO.chip { border-style: dotted; border-width: 3px; }
+.r-GO.chip { border-style: dashed; border-width: 2px; }
+
+.aufgabe {
+  position: relative; background: #fff; border: 3px solid var(--c); border-radius: 18px;
+  padding: 14px 18px 16px; margin: 22px 0 18px 14px; break-inside: avoid;
+}
+.aufgabe .nr {
+  position: absolute; left: -22px; top: -16px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--c); color: #fff; border: 4px solid #fffdf6;
+  display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 22px;
+}
+.aufgabe h2 { margin: 0 0 6px 28px; font-size: 20px; line-height: 1.25; }
+.aufgabe h2 .stars { float: right; color: #e0a100; font-size: 18px; letter-spacing: 1px; }
+.aufgabe p { margin: 6px 0; }
+.tipp {
+  background: #fff4c2; border: 2px dashed #d4a800; border-radius: 12px; padding: 7px 12px; margin: 8px 0; font-size: 15px;
+}
+.merk {
+  background: #e8f1ff; border-left: 8px solid var(--c); border-radius: 10px; padding: 8px 14px; margin: 12px 0; font-size: 16px;
+}
+.wort {
+  display: flex; flex-wrap: wrap; gap: 6px 8px; padding: 8px 12px; margin: 8px 0;
+  border: 2px dashed #9a9484; border-radius: 12px; background: #faf6e8; font-size: 15px; align-items: center;
+}
+.wort b { margin-right: 4px; }
+.wort i { font-style: normal; background: #fff; border: 1.5px solid #bdb5a0; border-radius: 999px; padding: 0 10px; }
+
+ol.circ { margin: 8px 0; padding-left: 30px; }
+ol.circ li { font-size: 19px; line-height: 2.9; border-bottom: 1px dotted #ccc; padding-left: 4px; break-inside: avoid; }
+ol.sol li { line-height: 3.3; }
+.line { border-bottom: 1.5px solid #555; height: 33px; margin: 0; }
+.lines { margin: 4px 0 6px; }
+.gap { display: inline-block; min-width: 120px; border-bottom: 2px solid #444; height: 1.1em; vertical-align: bottom; margin: 0 3px; }
+.gap.l { min-width: 190px; }
+.gap.s { min-width: 70px; }
+.sol-txt { color: #b3261e; font-weight: bold; }
+
+table.tab { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 16px; }
+table.tab th, table.tab td { border: 2px solid #aaa49a; padding: 6px 9px; vertical-align: middle; text-align: left; }
+table.tab th { background: #f1ecdc; }
+table.tab td.n { width: 34px; text-align: center; font-weight: bold; color: var(--muted); }
+table.tab td.blank { height: 46px; }
+.opt { white-space: nowrap; margin-right: 12px; display: inline-block; }
+.box {
+  display: inline-block; width: 22px; height: 22px; border: 2.5px solid #444; border-radius: 6px; vertical-align: middle;
+  margin-right: 4px; text-align: center; line-height: 17px; font-style: normal; font-weight: bold; color: #b3261e; font-size: 17px;
+}
+u { text-decoration-thickness: 3px; text-underline-offset: 3px; }
+
+.h {
+  position: relative; display: inline-block; padding: 0 7px; border-radius: 9px; line-height: 1.5;
+  background: var(--t); border: 2.5px solid var(--c);
+}
+.h.r-P { border-style: double; border-width: 4px; }
+.h.r-AO { border-style: dashed; }
+.h.r-DO { border-style: dotted; border-width: 3px; }
+.h.r-GO { border-style: dashed; border-width: 2px; }
+.h::after {
+  content: attr(data-l); position: absolute; left: 4px; top: 100%; margin-top: 1px;
+  font-size: 11px; font-weight: bold; color: var(--c); white-space: nowrap; line-height: 1;
+}
+
+.treppe .stufe { margin: 10px 0 0; padding-left: 0; }
+.treppe .stufe:nth-of-type(2) { margin-left: 18px; }
+.treppe .stufe:nth-of-type(3) { margin-left: 36px; }
+.treppe .stufe:nth-of-type(4) { margin-left: 54px; }
+.treppe .stufe:nth-of-type(5) { margin-left: 72px; }
+.stufe .kopf { font-weight: bold; font-size: 16px; }
+.stufe .kopf .chip { font-size: 13px; }
+.start { font-size: 21px; font-weight: bold; margin: 6px 0; }
+
+.check {
+  display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-top: 22px;
+  border: 3px dashed var(--c); border-radius: 16px; padding: 10px 16px; break-inside: avoid;
+}
+.check b { font-size: 18px; }
+.check .opt { font-size: 16px; }
+.diplom {
+  margin-top: 18px; border: 6px double #c9a227; border-radius: 14px; padding: 14px 20px; text-align: center; background: #fffbe8;
+  break-inside: avoid;
+}
+.diplom h2 { margin: 0 0 4px; font-size: 26px; color: #8a6a00; }
+
+.plan { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+.plan td { background: #fff; border-top: 3px solid var(--c); border-bottom: 3px solid var(--c); padding: 10px 14px; vertical-align: middle; }
+.plan td:first-child { border-left: 3px solid var(--c); border-radius: 16px 0 0 16px; width: 90px; text-align: center; font-size: 34px; font-weight: bold; color: var(--c); }
+.plan td:last-child { border-right: 3px solid var(--c); border-radius: 0 16px 16px 0; width: 130px; text-align: center; }
+.plan a { color: inherit; text-decoration: none; }
+.plan small { color: var(--muted); display: block; font-size: 14px; }
+.stempel { width: 48px; height: 48px; border: 3px dashed #999; border-radius: 50%; display: inline-block; }
+
+@media print {
+  @page { size: A4; margin: 10mm; }
+  body { background: #fff; padding: 0; font-size: 15px; }
+  .pdf-btn, .noprint { display: none !important; }
+  .page { max-width: none; border-width: 3px; padding: 12px 16px 16px; }
+  .aufgabe { margin-top: 16px; }
+  ol.circ li { font-size: 17px; line-height: 2.6; }
+  .pagebreak { break-before: page; }
+  a { color: inherit; }
+}
+
+table.tab.eng { table-layout: fixed; font-size: 13px; }
+table.tab.eng th, table.tab.eng td { padding: 4px 3px; word-wrap: break-word; }
+table.tab.eng .chip { font-size: 11px; padding: 0 4px; border-width: 2px; }
+  /* ---------- Rollenfarben ---------- */
+  .r-S     { --c: var(--c-S);     --t: var(--t-S);     --bs: solid; }
+  .r-P     { --c: var(--c-P);     --t: var(--t-P);     --bs: double; }
+  .r-AO    { --c: var(--c-AO);    --t: var(--t-AO);    --bs: dashed; }
+  .r-DO    { --c: var(--c-DO);    --t: var(--t-DO);    --bs: dotted; }
+  .r-ORT   { --c: var(--c-ORT);   --t: var(--t-ORT);   --bs: solid; }
+  .r-ZEIT  { --c: var(--c-ZEIT);  --t: var(--t-ZEIT);  --bs: solid; }
+  .r-GRUND { --c: var(--c-GRUND); --t: var(--t-GRUND); --bs: solid; }
+
+  .btn {
+    display: inline-block; border: 0; border-radius: 12px; cursor: pointer;
+    background: var(--brand); color: #fff; font-size: 17px; font-weight: 700;
+    padding: 12px 22px; text-decoration: none;
+  }
+  .btn:hover { background: var(--brand-dark); }
+  .btn.ghost { background: #fff; color: var(--brand-dark); border: 2px solid var(--brand); }
+  .btn.ghost:hover { background: #eef2f9; }
+  .btn.small { font-size: 14px; padding: 8px 14px; border-radius: 9px; }
+  .btn.big { font-size: 22px; padding: 16px 34px; border-radius: 16px; }
+  .btn:disabled { opacity: .45; cursor: default; }
+  /* ---------- Satzglieder-Chips (Anzeige und Quiz) ---------- */
+  .sent { display: flex; flex-wrap: wrap; gap: 34px 10px; align-items: flex-start; }
+  .tp { display: inline-flex; align-items: baseline; }
+  .pu { font-size: inherit; margin-left: 1px; }
+  .tok {
+    position: relative;
+    font: inherit; color: var(--ink);
+    background: #fff;
+    border: 3px solid var(--line);
+    border-radius: 12px;
+    padding: 6px 13px;
+    cursor: pointer;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tok.on {
+    background: var(--t); border-color: var(--c); border-style: var(--bs, solid);
+    cursor: default;
+  }
+  .tok.static { cursor: default; }
+  .tok.static:not(.on) { background: transparent; border-color: transparent; padding-left: 2px; padding-right: 2px; }
+  .lab {
+    position: absolute; left: 2px; top: 100%; margin-top: 5px;
+    font-style: normal; font-weight: 800; font-size: .52em; color: var(--c);
+    white-space: nowrap; opacity: 0; transition: opacity .25s;
+  }
+  .lab.show, .tok.static.on .lab { opacity: 1; }
+  .tok.wrong { animation: shake .4s; border-color: #d33 !important; background: #ffecec; }
+  .tok.pulse:not(.on) { animation: pulse 1s infinite; }
+  @keyframes shake { 20%{transform:translateX(-7px)} 40%{transform:translateX(7px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 6px rgba(47,95,179,.35); } }
+
+  .note { color: var(--muted); font-size: 14px; }
+  /* ---------- Quiz ---------- */
+  .qscreen { display: none; }
+  .qscreen.active { display: block; }
+  .qhead { text-align: center; margin-bottom: 18px; }
+  .qhead h1 { font-size: clamp(30px, 5vw, 46px); margin-bottom: 4px; }
+  .qhead p { color: var(--muted); font-size: 18px; margin: 0; }
+  .path { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; margin: 24px 0; position: relative; }
+  .station {
+    background: #fff; border: 3px solid var(--sc); border-radius: 20px; padding: 20px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .station .num {
+    width: 62px; height: 62px; border-radius: 50%; background: var(--sc); color: #fff;
+    font-size: 30px; font-weight: 800; display: flex; align-items: center; justify-content: center;
+  }
+  .station h3 { font-size: 24px; margin: 4px 0 0; }
+  .station p { color: var(--muted); margin: 0; font-size: 16px; min-height: 3em; }
+  .station .best { font-weight: 700; min-height: 1.5em; }
+  .star-row { display: inline-flex; gap: 4px; }
+  .star-row svg { width: 34px; height: 34px; fill: #ddd; }
+  .star-row svg.on { fill: #f5b301; stroke: #c98f00; stroke-width: 1; }
+  .qr-box {
+    display: flex; gap: 28px; align-items: center; justify-content: center; flex-wrap: wrap;
+    background: #fff; border: 2px dashed var(--line); border-radius: 20px; padding: 22px; margin: 8px auto 22px; max-width: 760px;
+  }
+  .qr-box h2 { font-size: 26px; margin-bottom: 6px; }
+  .qr-box p { max-width: 340px; margin: 0 0 8px; }
+  #qr-img { width: 230px; height: 230px; flex: none; }
+  #qr-img svg { width: 100%; height: 100%; display: block; }
+  .qfoot { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+
+  .hud { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+  .hud .badge { color: #fff; font-weight: 800; padding: 6px 16px; border-radius: 999px; font-size: 17px; }
+  .hud .pts { margin-left: auto; font-weight: 800; font-size: 20px; }
+  .bar { height: 14px; background: #e8e2d4; border-radius: 99px; flex: 1; min-width: 120px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--lc); width: 0; transition: width .4s; border-radius: 99px; }
+  .play-card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: clamp(18px, 3vw, 34px); min-height: 330px; }
+  .prompt { font-size: clamp(22px, 3vw, 30px); font-weight: 800; margin-bottom: 4px; }
+  .prompt .chip { font-size: .62em; vertical-align: middle; margin-left: 8px; }
+  .subprompt { color: var(--muted); font-size: 18px; min-height: 1.6em; margin-bottom: 8px; }
+  .play-card .sent { font-size: clamp(22px, 3.1vw, 32px); margin: 26px 0 40px; }
+  .feedback { font-size: 20px; font-weight: 700; min-height: 2.6em; }
+  .feedback.ok { color: #1c7a43; }
+  .feedback.no { color: #b3261e; }
+  .play-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+  .link-btn { background: none; border: 0; color: var(--muted); text-decoration: underline; font-size: 15px; cursor: pointer; padding: 8px; }
+
+  .result { text-align: center; padding: 20px 0; }
+  .result h1 { font-size: clamp(32px, 5vw, 48px); }
+  .result .star-row svg { width: 74px; height: 74px; }
+  .result .star-row svg.on { animation: pop .5s both; }
+  .result .star-row svg.on:nth-child(2) { animation-delay: .25s; }
+  .result .star-row svg.on:nth-child(3) { animation-delay: .5s; }
+  @keyframes pop { 0% { transform: scale(0) rotate(-40deg); } 70% { transform: scale(1.25) rotate(8deg); } 100% { transform: scale(1); } }
+  .result .big { font-size: 24px; font-weight: 800; margin: 14px 0 4px; }
+  .result .btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+
+  .cert {
+    max-width: 760px; margin: 0 auto; background: #fffdf5; border: 10px double #c9a227; border-radius: 6px;
+    padding: 34px 36px; text-align: center;
+  }
+  .cert h1 { font-size: clamp(34px, 6vw, 54px); letter-spacing: 4px; margin-bottom: 4px; color: #8a6a00; }
+  .cert .name-in {
+    font-size: 30px; font-weight: 800; text-align: center; border: 0; border-bottom: 3px solid #333;
+    background: transparent; width: min(420px, 90%); padding: 6px; margin: 10px 0;
+    font-family: inherit; color: var(--ink);
+  }
+  .cert .rank { font-size: 30px; font-weight: 800; color: var(--brand-dark); margin: 8px 0; }
+  .cert table { margin: 14px auto; border-collapse: collapse; font-size: 18px; }
+  .cert td, .cert th { padding: 6px 16px; border-bottom: 1px solid #e3d9b0; }
+  .cert .star-row svg { width: 22px; height: 22px; }
+  .cert .total { font-size: 24px; font-weight: 800; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+/* ---------- Seitengerüst ---------- */
+:root {
+  --line: #d9d2c3; --muted: #666b78;
+  --brand: #2f6fd0; --brand-dark: #244a8c;
+  --c: #2f6fd0;
+  --l1: #3f9a6a; --l2: #d68a1f; --l3: #c0392b;
+}
+body { padding: 0; }
+.r-GO { --bs: dashed; }
+.top {
+  position: sticky; top: 0; z-index: 30; background: #fff; border-bottom: 3px solid #e2d9c2;
+  display: flex; gap: 12px; align-items: center; padding: 8px 14px; overflow-x: auto;
+}
+.brand { font-weight: bold; color: var(--brand-dark); white-space: nowrap; font-size: 18px; }
+.nav { display: flex; gap: 6px; }
+.nav button {
+  border: 0; background: #f3eee0; border-radius: 12px; padding: 9px 14px; font: inherit; font-weight: bold;
+  font-size: 15px; cursor: pointer; white-space: nowrap; color: #333; border-bottom: 4px solid var(--nc, #ccc);
+}
+.nav button:hover { background: #ebe4cf; }
+.nav button.active { background: var(--nc, var(--brand)); color: #fff; }
+.nav .sep { width: 2px; background: var(--line); margin: 4px 4px; flex: none; }
+main { padding: 18px 14px 60px; }
+.view { display: none; }
+.view.active { display: block; }
+body.kid .nav { display: none; }
+.plan a { cursor: pointer; }
+.plan a:hover b { text-decoration: underline; }
+.qr-box { margin-top: 0; }
+.qr-box h2 { font-family: inherit; }
+.play-card .sent .tok { font-family: inherit; }
+
+/* ---------- Quiz: Auswahlfragen ---------- */
+.ctext { font-size: clamp(22px, 3vw, 30px); margin: 18px 0 20px; line-height: 1.7; }
+.ctext u { text-decoration-thickness: 4px; text-underline-offset: 5px; text-decoration-color: var(--brand); }
+.copts { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+.copt {
+  font: inherit; font-size: clamp(18px, 2.4vw, 24px); font-weight: bold; padding: 14px 24px; border-radius: 16px;
+  border: 3px solid var(--line); background: #fff; cursor: pointer; color: var(--ink); min-width: 120px;
+  -webkit-tap-highlight-color: transparent;
+}
+.copt:hover { border-color: var(--brand); }
+.copt.good { background: #d9f2e2; border-color: #1f9d55; }
+.copt.wrong { animation: shake .4s; background: #ffecec; border-color: #d33; }
+.copt:disabled { cursor: default; }
+.station { --sc: var(--brand); }
+.path { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.station h3 { font-size: 20px; }
+
+@media print {
+  .top, .noprint, .qr-box { display: none !important; }
+  body.printing .view:not(.print-target) { display: none !important; }
+  .print-hide { display: none !important; }
+  main { padding: 0; }
+}
+</style>
+</head>
+<body>
+<script>
+/* Alle Sätze und Lösungen an einer Stelle: Arbeitsblätter und Lösungsheft lesen daraus. */
+var DATA = {
+  t1: {
+    tab: [
+      '[Der Bus]S [kommt]P.',
+      '[Meine Oma]S [backt]P einen Kuchen.',
+      '[Die Schüler der 6a]S [schreiben]P einen Test.',
+      'Im Park [spielen]P [viele Kinder]S.',
+      '[Der Lehrer]S [erklärt]P die Aufgabe.',
+      'Heute [backen]P [wir]S Kekse.'
+    ],
+    circle: [
+      '[Lena]S [liest]P ein Buch.',
+      '[Meine beste Freundin]S [wohnt]P in Nürnberg.',
+      'Auf dem Schulhof [spielen]P [die Kinder]S Fußball.',
+      '[Der kleine Hund]S [frisst]P sein Futter.',
+      'Am Samstag [backen]P [wir]S Plätzchen.',
+      '[Viele Familien]S [fahren]P im Winter in die Berge.'
+    ],
+    circle2: [
+      '[Ich]S [habe]P gestern [gelacht]P.',
+      '[Der Zug]S [fährt]P pünktlich [ab]P.',
+      '[Wir]S [haben]P Fußball [gespielt]P.'
+    ],
+    zu: [
+      { t: 'Die Kinder <u>spielen</u> im Garten.', a: 'P' },
+      { t: '<u>Der Hund</u> bellt laut.', a: 'S' },
+      { t: 'Heute <u>kocht</u> Papa Nudeln.', a: 'P' },
+      { t: 'Im Zoo sehen <u>wir</u> Affen.', a: 'S' },
+      { t: '<u>Meine Schwester</u> singt.', a: 'S' },
+      { t: 'Der Zug <u>kommt</u> pünktlich.', a: 'P' },
+      { t: 'Auf dem Dach <u>sitzt</u> eine Katze.', a: 'P' },
+      { t: 'Auf dem Dach sitzt <u>eine Katze</u>.', a: 'S' }
+    ],
+    erw: [
+      { start: 'Der Hund bellt.', bsp: 'Der große braune Hund von nebenan bellt.' },
+      { start: 'Das Mädchen lacht.', bsp: 'Das kleine Mädchen mit den roten Zöpfen lacht.' },
+      { start: 'Die Lehrerin schreibt.', bsp: 'Unsere neue Lehrerin für Deutsch schreibt.' }
+    ]
+  },
+
+  t2: {
+    frage: [
+      { t: 'Mia schenkt ihrem Bruder ein Buch.', ziel: 'DO', q: 'Wem schenkt Mia ein Buch?', a: 'ihrem Bruder' },
+      { t: 'Der Bäcker verkauft den Kindern frische Brötchen.', ziel: 'AO', q: 'Wen oder was verkauft der Bäcker den Kindern?', a: 'frische Brötchen' },
+      { t: 'Tom hilft seiner Oma.', ziel: 'DO', q: 'Wem hilft Tom?', a: 'seiner Oma' },
+      { t: 'Wir gedenken der Opfer.', ziel: 'GO', q: 'Wessen gedenken wir?', a: 'der Opfer' },
+      { t: 'Der Hund gehorcht seinem Herrchen.', ziel: 'DO', q: 'Wem gehorcht der Hund?', a: 'seinem Herrchen' },
+      { t: 'Die Lehrerin lobt den fleißigen Schüler.', ziel: 'AO', q: 'Wen oder was lobt die Lehrerin?', a: 'den fleißigen Schüler' }
+    ],
+    circle: [
+      '[Der Opa]S [erzählt]P [den Enkeln]DO [eine Geschichte]AO.',
+      '[Lisa]S [zeigt]P [ihrem Freund]DO [das neue Fahrrad]AO.',
+      '[Die Lehrerin]S [lobt]P [den fleißigen Schüler]AO.',
+      '[Der Hund]S [gehorcht]P [seinem Herrchen]DO.',
+      '[Mama]S [kauft]P [mir]DO [neue Schuhe]AO.',
+      '[Die Klasse]S [gedenkt]P [der Opfer]GO.'
+    ],
+    circle2: [
+      '[Der Richter]S [beschuldigt]P [den Mann]AO [des Diebstahls]GO.'
+    ],
+    zu: [
+      { t: 'Ich gebe <u>dem Hund</u> Wasser.', a: 'DO' },
+      { t: 'Ich gebe dem Hund <u>Wasser</u>.', a: 'AO' },
+      { t: 'Der Lehrer hilft <u>den Kindern</u>.', a: 'DO' },
+      { t: 'Sie liebt <u>ihre Katze</u>.', a: 'AO' },
+      { t: 'Wir gedenken <u>der Helden</u>.', a: 'GO' },
+      { t: 'Er schenkt <u>seiner Schwester</u> eine Kette.', a: 'DO' },
+      { t: 'Sie bedarf <u>deiner Hilfe</u>.', a: 'GO' },
+      { t: 'Paul malt <u>ein Bild</u>.', a: 'AO' }
+    ],
+    luecke: [
+      { t: 'Die Oma backt <g></g> (Wen oder was?).', bsp: 'einen Kuchen' },
+      { t: 'Lena schenkt <g></g> (Wem?) einen Ball.', bsp: 'ihrem Bruder' },
+      { t: 'Der Trainer lobt <g></g> (Wen oder was?).', bsp: 'die Mannschaft' },
+      { t: 'Der Lehrer hilft <g></g> (Wem?).', bsp: 'den Schülern' },
+      { t: 'Wir gedenken <g></g> (Wessen?).', bsp: 'der Opfer' }
+    ]
+  },
+
+  t3: {
+    zu: [
+      { t: 'im Garten', a: 'ORT' },
+      { t: 'am Abend', a: 'ZEIT' },
+      { t: 'wegen der Kälte', a: 'GRUND' },
+      { t: 'auf dem Spielplatz', a: 'ORT' },
+      { t: 'nach dem Unterricht', a: 'ZEIT' },
+      { t: 'aus Angst', a: 'GRUND' },
+      { t: 'zu Hause', a: 'ORT' },
+      { t: 'gestern', a: 'ZEIT' },
+      { t: 'wegen des Staus', a: 'GRUND' },
+      { t: 'unter dem Tisch', a: 'ORT' },
+      { t: 'im Sommer', a: 'ZEIT' },
+      { t: 'wegen der Hitze', a: 'GRUND' }
+    ],
+    circle: [
+      '[Die Kinder]S [spielen]P [heute]ZEIT [auf dem Schulhof]ORT Fußball.',
+      '[Wegen des Regens]GRUND [bleibt]P [die Klasse]S [im Schulhaus]ORT.',
+      '[Am Samstag]ZEIT [besucht]P [Jonas]S seine Oma [in Regensburg]ORT.',
+      '[Die Katze]S [schläft]P [nach dem Essen]ZEIT [auf dem Sofa]ORT.',
+      '[Wegen der Hitze]GRUND [trinken]P [wir]S [im Sommer]ZEIT viel Wasser.',
+      '[Der Hund]S [zittert]P [aus Angst]GRUND [unter dem Bett]ORT.'
+    ],
+    fq: [
+      { t: 'Die Klasse wandert <u>im Wald</u>.', q: 'Wo?', a: 'ORT' },
+      { t: 'Max bleibt <u>wegen der Grippe</u> zu Hause.', q: 'Warum?', a: 'GRUND' },
+      { t: '<u>Am Freitag</u> schreiben wir einen Test.', q: 'Wann?', a: 'ZEIT' },
+      { t: 'Wir feiern <u>im Klassenzimmer</u> eine Party.', q: 'Wo?', a: 'ORT' },
+      { t: 'Die Kinder lachen <u>vor Freude</u>.', q: 'Warum?', a: 'GRUND' },
+      { t: 'Lena kommt <u>nach der Schule</u> zu mir.', q: 'Wann?', a: 'ZEIT' }
+    ],
+    erw: [
+      { start: 'Der Hund bellt.', ort: 'Der Hund bellt im Garten.', zeit: 'Der Hund bellt heute.', grund: 'Der Hund bellt wegen des Briefträgers.', alles: 'Heute bellt der Hund wegen des Briefträgers im Garten.' },
+      { start: 'Die Kinder lachen.', ort: 'Die Kinder lachen auf dem Schulhof.', zeit: 'Die Kinder lachen in der Pause.', grund: 'Die Kinder lachen vor Freude.', alles: 'In der Pause lachen die Kinder vor Freude auf dem Schulhof.' }
+    ]
+  },
+
+  t4: {
+    treppen: [
+      { start: 'Der Hund bellt.', stufen: [
+        { r: 'ORT', f: 'Wo?', tipp: '', bsp: 'Der Hund bellt im Garten.' },
+        { r: 'ZEIT', f: 'Wann?', tipp: '', bsp: 'Der Hund bellt heute im Garten.' },
+        { r: 'GRUND', f: 'Warum?', tipp: '', bsp: 'Der Hund bellt heute aus Freude im Garten.' },
+        { r: 'AO', f: 'Wen oder was?', tipp: 'Das Verb bekommt ein kleines Wort am Ende: bellt ... an.', bsp: 'Der Hund bellt heute aus Freude im Garten den Briefträger an.' }
+      ] },
+      { start: 'Die Oma backt.', stufen: [
+        { r: 'AO', f: 'Wen oder was?', tipp: '', bsp: 'Die Oma backt einen Kuchen.' },
+        { r: 'DO', f: 'Wem?', tipp: '', bsp: 'Die Oma backt ihrem Enkel einen Kuchen.' },
+        { r: 'ZEIT', f: 'Wann?', tipp: '', bsp: 'Die Oma backt ihrem Enkel am Samstag einen Kuchen.' },
+        { r: 'ORT', f: 'Wo?', tipp: '', bsp: 'Die Oma backt ihrem Enkel am Samstag in der Küche einen Kuchen.' },
+        { r: 'GRUND', f: 'Warum?', tipp: '', bsp: 'Die Oma backt ihrem Enkel am Samstag wegen seines Geburtstags in der Küche einen Kuchen.' }
+      ] }
+    ],
+    zu: [
+      { t: 'heute Abend', a: 'B' },
+      { t: 'in der Küche', a: 'A' },
+      { t: 'Nudeln', a: 'E' },
+      { t: 'uns', a: 'D' },
+      { t: 'wegen des Besuchs', a: 'C' }
+    ],
+    zuFragen: [['A', 'Wo?'], ['B', 'Wann?'], ['C', 'Warum?'], ['D', 'Wem?'], ['E', 'Wen oder was?']],
+    farb: '[Die Lehrerin]S [erzählt]P [der Klasse]DO [heute]ZEIT [im Garten]ORT [eine Geschichte]AO.',
+    baukasten: {
+      S: ['Der Hausmeister', 'Meine Schwester', 'Der Trainer', 'Die Lehrerin'],
+      P: ['schenkt', 'zeigt', 'bringt', 'erzählt'],
+      DO: ['dem Kind', 'ihrem Freund', 'der Klasse', 'uns'],
+      AO: ['ein Buch', 'das Heft', 'eine Geschichte', 'einen Ball'],
+      ORT: ['im Garten', 'in der Turnhalle', 'auf dem Schulhof', 'zu Hause'],
+      ZEIT: ['heute', 'am Montag', 'nach der Pause', 'abends'],
+      GRUND: ['wegen des Regens', 'aus Freude', 'wegen der Hitze', 'aus Langeweile']
+    },
+    baukastenBsp: [
+      'Die Lehrerin erzählt der Klasse heute im Garten eine Geschichte.',
+      'Der Trainer zeigt wegen der Hitze in der Turnhalle ihrem Freund einen Ball.',
+      'Abends bringt meine Schwester uns aus Freude zu Hause ein Buch.'
+    ]
+  },
+
+  t5: {
+    circle: [
+      '[Gestern]ZEIT [hat]P [Mia]S [ihrer Oma]DO [einen Brief]AO [geschrieben]P.',
+      '[Wegen des Regens]GRUND [bleiben]P [die Kinder]S [heute]ZEIT [im Klassenzimmer]ORT.',
+      '[Der Hausmeister]S [repariert]P [am Montag]ZEIT [die kaputte Tür]AO.',
+      '[Nach der Schule]ZEIT [bringt]P [Tom]S [seiner Schwester]DO [ein Eis]AO [mit]P.',
+      '[Im Zoo]ORT [füttert]P [die Tierpflegerin]S [die Affen]AO.',
+      '[Wir]S [gedenken]P [am Sonntag]ZEIT [in der Kirche]ORT [der Opfer]GO.'
+    ],
+    tabelle: [
+      '[Am Dienstag]ZEIT [schenkt]P [der Opa]S [seiner Enkelin]DO [wegen ihres Geburtstags]GRUND [ein Fahrrad]AO.',
+      '[Im Park]ORT [wirft]P [Jonas]S [heute]ZEIT [seinem Hund]DO [einen Ball]AO.'
+    ],
+    umstell: 'Die Klasse schreibt am Freitag einen Test.',
+    umstellBsp: [
+      'Am Freitag schreibt die Klasse einen Test.',
+      'Einen Test schreibt die Klasse am Freitag.',
+      'Die Klasse schreibt einen Test am Freitag.'
+    ],
+    erw: [
+      { start: 'Der Vogel singt.', bsp: 'Heute singt der Vogel auf dem Dach ein schönes Lied.' },
+      { start: 'Die Kinder lachen.', bsp: 'Die Kinder lachen in der Pause vor Freude auf dem Schulhof.' }
+    ],
+    karte: [
+      ['S', 'Subjekt', 'Wer oder Was?'],
+      ['P', 'Prädikat', 'Was tut jemand? Was geschieht?'],
+      ['AO', 'Akkusativobjekt', 'Wen oder Was?'],
+      ['DO', 'Dativobjekt', 'Wem?'],
+      ['GO', 'Genitivobjekt', 'Wessen?'],
+      ['ORT', 'Ort', 'Wo?'],
+      ['ZEIT', 'Zeit', 'Wann?'],
+      ['GRUND', 'Grund', 'Warum?']
+    ]
+  }
+};
+/* Hilfsfunktionen für alle Arbeitsblätter */
+var W = (function () {
+  var ROLES = {
+    S: 'Subjekt', P: 'Prädikat', AO: 'Akk.-Objekt', DO: 'Dat.-Objekt', GO: 'Gen.-Objekt',
+    ORT: 'Ort', ZEIT: 'Zeit', GRUND: 'Grund'
+  };
+  var LONG = {
+    S: 'Subjekt', P: 'Prädikat', AO: 'Akkusativobjekt', DO: 'Dativobjekt', GO: 'Genitivobjekt',
+    ORT: 'Ort', ZEIT: 'Zeit', GRUND: 'Grund'
+  };
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
+  }
+
+  function parse(str) {
+    var segs = [], re = /\[([^\]]+)\]([A-Z]*)([.,!?]?)|([^\[\]]+)/g, m;
+    while ((m = re.exec(str))) {
+      if (m[1] !== undefined) {
+        if (m[2] && !ROLES[m[2]]) throw new Error('Unbekannte Rolle ' + m[2] + ' in: ' + str);
+        segs.push({ text: m[1].trim(), role: m[2] || '', punct: m[3] || '' });
+      } else {
+        var t = m[4].trim();
+        if (t) segs.push({ text: t, role: '', punct: '' });
+      }
+    }
+    return segs;
+  }
+
+  function plain(str) {
+    var out = '';
+    parse(str).forEach(function (s, i) {
+      // Satzzeichen hängt direkt am Wort, auch wenn es als eigener Textteil geparst wurde
+      if (i > 0 && !/^[.,!?]$/.test(s.text)) out += ' ';
+      out += s.text + s.punct;
+    });
+    return out;
+  }
+
+  function colored(str, allowed) {
+    return parse(str).map(function (s, i) {
+      var role = s.role && (!allowed || allowed.indexOf(s.role) >= 0) ? s.role : '';
+      var sp = i > 0 ? ' ' : '';
+      if (role) return sp + '<span class="h r-' + role + '" data-l="' + ROLES[role] + '">' + esc(s.text) + '</span>' + esc(s.punct);
+      return sp + esc(s.text) + esc(s.punct);
+    }).join('');
+  }
+
+  function el(sel) { return document.querySelector(sel); }
+
+  function lines(n) {
+    var h = '<div class="lines">';
+    for (var i = 0; i < n; i++) h += '<p class="line"></p>';
+    return h + '</div>';
+  }
+
+  function fillLines() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-n]'), function (d) {
+      d.innerHTML = lines(parseInt(d.getAttribute('data-n'), 10));
+    });
+  }
+
+  // Sätze zum Umkreisen (oder, mit solve, farbig gelöst)
+  function circle(sel, arr, solve, allowed, start) {
+    var ol = el(sel);
+    if (start) ol.setAttribute('start', start);
+    ol.innerHTML = arr.map(function (s) {
+      return '<li>' + (solve ? colored(s, allowed) : esc(plain(s))) + '</li>';
+    }).join('');
+  }
+
+  // Tabelle mit Ankreuzfeldern. items: {t, a}; options: [[code,label]]
+  function zuordnen(sel, items, options, solve, head) {
+    var h = '<table class="tab"><thead><tr><th></th><th>' + (head || 'Satz') + '</th><th>Das ist ...</th></tr></thead><tbody>';
+    items.forEach(function (it, i) {
+      h += '<tr><td class="n">' + (i + 1) + '</td><td>' + it.t + '</td><td>' +
+        options.map(function (o) {
+          return '<span class="opt"><i class="box">' + (solve && it.a === o[0] ? '&#10003;' : '') + '</i>' + o[1] + '</span>';
+        }).join('') + '</td></tr>';
+    });
+    el(sel).innerHTML = h + '</tbody></table>';
+  }
+
+  function steps() {
+    Array.prototype.forEach.call(document.querySelectorAll('.steps[data-now]'), function (d) {
+      var now = parseInt(d.getAttribute('data-now'), 10), h = 'Training ';
+      for (var i = 1; i <= 5; i++) h += '<span' + (i === now ? ' class="now"' : '') + '>' + i + '</span>';
+      d.innerHTML = h;
+    });
+  }
+
+  function init() { fillLines(); steps(); }
+  document.addEventListener('DOMContentLoaded', init);
+
+  return { ROLES: ROLES, LONG: LONG, parse: parse, plain: plain, colored: colored, lines: lines, circle: circle, zuordnen: zuordnen, esc: esc, el: el };
+})();
+</script>
+<script>
+var qrcode=function(){function i(t,r){function a(t,r){g=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(l=4*u+17),e(0,0),e(l-7,0),e(0,l-7),i(),o(),v(t,r),7<=u&&h(t),null==n&&(n=w(u,f,c)),d(n,r)}var u=t,f=y[r],g=null,l=0,n=null,c=[],s={},e=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||l<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||l<=r+n||(g[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},o=function(){for(var t=8;t<l-8;t+=1)null==g[t][6]&&(g[t][6]=t%2==0);for(var r=8;r<l-8;r+=1)null==g[6][r]&&(g[6][r]=r%2==0)},i=function(){for(var t=B.getPatternPosition(u),r=0;r<t.length;r+=1)for(var e=0;e<t.length;e+=1){var n=t[r],o=t[e];if(null==g[n][o])for(var i=-2;i<=2;i+=1)for(var a=-2;a<=2;a+=1)g[n+i][o+a]=-2==i||2==i||-2==a||2==a||0==i&&0==a}},h=function(t){for(var r=B.getBCHTypeNumber(u),e=0;e<18;e+=1){var n=!t&&1==(r>>e&1);g[Math.floor(e/3)][e%3+l-8-3]=n}for(e=0;e<18;e+=1){n=!t&&1==(r>>e&1);g[e%3+l-8-3][Math.floor(e/3)]=n}},v=function(t,r){for(var e=f<<3|r,n=B.getBCHTypeInfo(e),o=0;o<15;o+=1){var i=!t&&1==(n>>o&1);o<6?g[o][8]=i:o<8?g[o+1][8]=i:g[l-15+o][8]=i}for(o=0;o<15;o+=1){i=!t&&1==(n>>o&1);o<8?g[8][l-o-1]=i:o<9?g[8][15-o-1+1]=i:g[8][15-o-1]=i}g[l-8][8]=!t},d=function(t,r){for(var e=-1,n=l-1,o=7,i=0,a=B.getMaskFunction(r),u=l-1;0<u;u-=2)for(6==u&&(u-=1);;){for(var f=0;f<2;f+=1)if(null==g[n][u-f]){var c=!1;i<t.length&&(c=1==(t[i]>>>o&1)),a(n,u-f)&&(c=!c),g[n][u-f]=c,-1==(o-=1)&&(i+=1,o=7)}if((n+=e)<0||l<=n){n-=e,e=-e;break}}},w=function(t,r,e){for(var n=b.getRSBlocks(t,r),o=M(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=C(i[u],l.getLength()-1).mod(l);a[u]=new Array(l.getLength()-1);for(g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=0<=s?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};s.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=x(t);break;case"Alphanumeric":e=m(t);break;case"Byte":e=L(t);break;case"Kanji":e=D(t);break;default:throw"mode:"+r}c.push(e),n=null},s.isDark=function(t,r){if(t<0||l<=t||r<0||l<=r)throw t+","+r;return g[t][r]},s.getModuleCount=function(){return l},s.make=function(){if(u<1){for(var t=1;t<40;t++){for(var r=b.getRSBlocks(t,f),e=M(),n=0;n<c.length;n++){var o=c[n];e.put(o.getMode(),4),e.put(o.getLength(),B.getLengthInBits(o.getMode(),t)),o.write(e)}var i=0;for(n=0;n<r.length;n++)i+=r[n].dataCount;if(e.getLengthInBits()<=8*i)break}u=t}a(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){a(!0,e);var n=B.getLostPoint(s);(0==e||n<t)&&(t=n,r=e)}return r}())},s.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<s.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<s.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=s.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},s.createSvgTag=function(t,r,e,n){var o={};"object"==typeof t&&(t=(o=t).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,f,c=s.getModuleCount()*t+2*r,g="";for(f="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",g+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',g+=o.scalable?"":' width="'+c+'px" height="'+c+'px"',g+=' viewBox="0 0 '+c+" "+c+'" ',g+=' preserveAspectRatio="xMinYMin meet"',g+=n.text||e.text?' role="img" aria-labelledby="'+p([n.id,e.id].join(" ").trim())+'"':"",g+=">",g+=n.text?'<title id="'+p(n.id)+'">'+p(n.text)+"</title>":"",g+=e.text?'<description id="'+p(e.id)+'">'+p(e.text)+"</description>":"",g+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',g+='<path d="',a=0;a<s.getModuleCount();a+=1)for(u=a*t+r,i=0;i<s.getModuleCount();i+=1)s.isDark(a,i)&&(g+="M"+(i*t+r)+","+u+f);return g+='" stroke="transparent" fill="black"/>',g+="</svg>"},s.createDataURL=function(o,t){o=o||2,t=void 0===t?4*o:t;var r=s.getModuleCount()*o+2*t,i=t,a=r-t;return I(r,r,function(t,r){if(i<=t&&t<a&&i<=r&&r<a){var e=Math.floor((t-i)/o),n=Math.floor((r-i)/o);return s.isDark(n,e)?0:1}return 1})},s.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=s.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=s.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=p(e),o+='"'),o+="/>"};var p=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return s.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*s.getModuleCount()+2*t,u=t,f=a-t,c={"██":"█","█ ":"▀"," █":"▄","  ":" "},g={"██":"▀","█ ":"▀"," █":" ","  ":" "},l="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<f&&u<=r&&r<f&&s.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<f&&u<=r+1&&r+1<f&&s.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",l+=t<1&&f<=r+1?g[i]:c[i];l+="\n"}return a%2&&0<t?l.substring(0,l.length-a-1)+Array(1+a).join("▀"):l.substring(0,l.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=s.getModuleCount()*t+2*r,u=r,f=a-r,c=Array(t+1).join("██"),g=Array(t+1).join("  "),l="",h="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),h="",n=0;n<a;n+=1)i=1,u<=n&&n<f&&u<=e&&e<f&&s.isDark(o,Math.floor((n-u)/t))&&(i=0),h+=i?c:g;for(o=0;o<t;o+=1)l+=h+"\n"}return l.substring(0,l.length-1)},s.renderTo2dContext=function(t,r){r=r||2;for(var e=s.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=s.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},s}i.stringToBytes=(i.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,i.createStringToBytes=function(u,f){var i=function(){function t(){var t=r.read();if(-1==t)throw"eof";return t}for(var r=S(u),e=0,n={};;){var o=r.read();if(-1==o)break;var i=t(),a=t()<<8|t();n[String.fromCharCode(o<<8|i)]=a,e+=1}if(e!=f)throw e+" != "+f;return n}(),a="?".charCodeAt(0);return function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);if(n<128)r.push(n);else{var o=i[t.charAt(e)];"number"==typeof o?(255&o)==o?r.push(o):(r.push(o>>>8),r.push(255&o)):r.push(a)}}return r}};var r,t,a=1,u=2,o=4,f=8,y={L:1,M:0,Q:3,H:2},e=0,n=1,c=2,g=3,l=4,h=5,s=6,v=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],(t={}).getBCHTypeInfo=function(t){for(var r=t<<10;0<=d(r)-d(1335);)r^=1335<<d(r)-d(1335);return 21522^(t<<10|r)},t.getBCHTypeNumber=function(t){for(var r=t<<12;0<=d(r)-d(7973);)r^=7973<<d(r)-d(7973);return t<<12|r},t.getPatternPosition=function(t){return r[t-1]},t.getMaskFunction=function(t){switch(t){case e:return function(t,r){return(t+r)%2==0};case n:return function(t,r){return t%2==0};case c:return function(t,r){return r%3==0};case g:return function(t,r){return(t+r)%3==0};case l:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case h:return function(t,r){return t*r%2+t*r%3==0};case s:return function(t,r){return(t*r%2+t*r%3)%2==0};case v:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},t.getErrorCorrectPolynomial=function(t){for(var r=C([1],0),e=0;e<t;e+=1)r=r.multiply(C([1,w.gexp(e)],0));return r},t.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case o:case f:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case o:return 16;case f:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case o:return 16;case f:return 12;default:throw"mode:"+t}}},t.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);5<i&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},t);function d(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r}var w=function(){for(var r=new Array(256),e=new Array(256),t=0;t<8;t+=1)r[t]=1<<t;for(t=8;t<256;t+=1)r[t]=r[t-4]^r[t-5]^r[t-6]^r[t-8];for(t=0;t<255;t+=1)e[r[t]]=t;var n={glog:function(t){if(t<1)throw"glog("+t+")";return e[t]},gexp:function(t){for(;t<0;)t+=255;for(;256<=t;)t-=255;return r[t]}};return n}();function C(n,o){if(void 0===n.length)throw n.length+"/"+o;var r=function(){for(var t=0;t<n.length&&0==n[t];)t+=1;for(var r=new Array(n.length-t+o),e=0;e<n.length-t;e+=1)r[e]=n[e+t];return r}(),i={getAt:function(t){return r[t]},getLength:function(){return r.length},multiply:function(t){for(var r=new Array(i.getLength()+t.getLength()-1),e=0;e<i.getLength();e+=1)for(var n=0;n<t.getLength();n+=1)r[e+n]^=w.gexp(w.glog(i.getAt(e))+w.glog(t.getAt(n)));return C(r,0)},mod:function(t){if(i.getLength()-t.getLength()<0)return i;for(var r=w.glog(i.getAt(0))-w.glog(t.getAt(0)),e=new Array(i.getLength()),n=0;n<i.getLength();n+=1)e[n]=i.getAt(n);for(n=0;n<t.getLength();n+=1)e[n]^=w.gexp(w.glog(t.getAt(n))+r);return C(e,0).mod(t)}};return i}function p(){var e=[],o={writeByte:function(t){e.push(255&t)},writeShort:function(t){o.writeByte(t),o.writeByte(t>>>8)},writeBytes:function(t,r,e){r=r||0,e=e||t.length;for(var n=0;n<e;n+=1)o.writeByte(t[n+r])},writeString:function(t){for(var r=0;r<t.length;r+=1)o.writeByte(t.charCodeAt(r))},toByteArray:function(){return e},toString:function(){var t="";t+="[";for(var r=0;r<e.length;r+=1)0<r&&(t+=","),t+=e[r];return t+="]"}};return o}var k,A,b=(k=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],(A={}).getRSBlocks=function(t,r){var e=function(t,r){switch(r){case y.L:return k[4*(t-1)+0];case y.M:return k[4*(t-1)+1];case y.Q:return k[4*(t-1)+2];case y.H:return k[4*(t-1)+3];default:return}}(t,r);if(void 0===e)throw"bad rs block @ typeNumber:"+t+"/errorCorrectionLevel:"+r;for(var n,o,i=e.length/3,a=[],u=0;u<i;u+=1)for(var f=e[3*u+0],c=e[3*u+1],g=e[3*u+2],l=0;l<f;l+=1)a.push((n=g,o=void 0,(o={}).totalCount=c,o.dataCount=n,o));return a},A),M=function(){var e=[],n=0,o={getBuffer:function(){return e},getAt:function(t){var r=Math.floor(t/8);return 1==(e[r]>>>7-t%8&1)},put:function(t,r){for(var e=0;e<r;e+=1)o.putBit(1==(t>>>r-e-1&1))},getLengthInBits:function(){return n},putBit:function(t){var r=Math.floor(n/8);e.length<=r&&e.push(0),t&&(e[r]|=128>>>n%8),n+=1}};return o},x=function(t){var r=a,n=t,e={getMode:function(){return r},getLength:function(t){return n.length},write:function(t){for(var r=n,e=0;e+2<r.length;)t.put(o(r.substring(e,e+3)),10),e+=3;e<r.length&&(r.length-e==1?t.put(o(r.substring(e,e+1)),4):r.length-e==2&&t.put(o(r.substring(e,e+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return e},m=function(t){var r=u,n=t,e={getMode:function(){return r},getLength:function(t){return n.length},write:function(t){for(var r=n,e=0;e+1<r.length;)t.put(45*o(r.charAt(e))+o(r.charAt(e+1)),11),e+=2;e<r.length&&t.put(o(r.charAt(e)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return e},L=function(t){var r=o,e=i.stringToBytes(t),n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=0;r<e.length;r+=1)t.put(e[r],8)}};return n},D=function(t){var r=f,e=i.stringToBytesFuncs.SJIS;if(!e)throw"sjis not supported.";!function(){var t=e("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=e(t),n={getMode:function(){return r},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return n},S=function(t){var e=t,n=0,o=0,i=0,r={read:function(){for(;i<8;){if(n>=e.length){if(0==i)return-1;throw"unexpected end of file./"+i}var t=e.charAt(n);if(n+=1,"="==t)return i=0,-1;t.match(/^\s$/)||(o=o<<6|a(t.charCodeAt(0)),i+=6)}var r=o>>>i-8&255;return i-=8,r}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return r},I=function(t,r,e){for(var n=function(t,r){var n=t,o=r,l=new Array(t*r),e={setPixel:function(t,r,e){l[r*n+t]=e},write:function(t){t.writeString("GIF87a"),t.writeShort(n),t.writeShort(o),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(n),t.writeShort(o),t.writeByte(0);var r=i(2);t.writeByte(2);for(var e=0;255<r.length-e;)t.writeByte(255),t.writeBytes(r,e,255),e+=255;t.writeByte(r.length-e),t.writeBytes(r,e,r.length-e),t.writeByte(0),t.writeString(";")}},i=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,o=h(),i=0;i<r;i+=1)o.add(String.fromCharCode(i));o.add(String.fromCharCode(r)),o.add(String.fromCharCode(e));var a=p(),u=function(t){var e=t,n=0,o=0,r={write:function(t,r){if(t>>>r!=0)throw"length over";for(;8<=n+r;)e.writeByte(255&(t<<n|o)),r-=8-n,t>>>=8-n,n=o=0;o|=t<<n,n+=r},flush:function(){0<n&&e.writeByte(o)}};return r}(a);u.write(r,n);var f=0,c=String.fromCharCode(l[f]);for(f+=1;f<l.length;){var g=String.fromCharCode(l[f]);f+=1,o.contains(c+g)?c+=g:(u.write(o.indexOf(c),n),o.size()<4095&&(o.size()==1<<n&&(n+=1),o.add(c+g)),c=g)}return u.write(o.indexOf(c),n),u.write(e,n),u.flush(),a.toByteArray()},h=function(){var r={},e=0,n={add:function(t){if(n.contains(t))throw"dup key:"+t;r[t]=e,e+=1},size:function(){return e},indexOf:function(t){return r[t]},contains:function(t){return void 0!==r[t]}};return n};return e}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=p();n.write(a);for(var u=function(){function e(t){a+=String.fromCharCode(r(63&t))}var n=0,o=0,i=0,a="",t={},r=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return t.writeByte=function(t){for(n=n<<8|255&t,o+=8,i+=1;6<=o;)e(n>>>o-6),o-=6},t.flush=function(){if(0<o&&(e(n<<6-o),o=n=0),i%3!=0)for(var t=3-i%3,r=0;r<t;r+=1)a+="="},t.toString=function(){return a},t}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return i}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||57344<=n?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}(function(){return qrcode});
+</script>
+<header class="top"><div class="brand">Satzglieder-Training</div><nav class="nav" id="nav">
+<button data-view="start" style="--nc:#2f6fd0">Start</button>
+<button data-view="t1" style="--nc:#2f6fd0">1 Prädikat und Subjekt</button>
+<button data-view="t2" style="--nc:#2e9e57">2 Objekte</button>
+<button data-view="t3" style="--nc:#8e44ad">3 Ort, Zeit, Grund</button>
+<button data-view="t4" style="--nc:#e07b00">4 Sätze erweitern</button>
+<button data-view="t5" style="--nc:#c0392b">5 Profi</button>
+<span class="sep"></span>
+<button data-view="loesungen" style="--nc:#555b6e">Lösungen</button>
+<button data-view="quiz" style="--nc:#3f9a6a">Quiz</button>
+</nav></header>
+<main>
+<section id="view-start" class="view">
+<button class="pdf-btn" onclick="window.print()">Als PDF herunterladen</button>
+<div class="page">
+  <div class="banner">
+    <div>
+      <h1>Mein Satzglieder-Trainingsplan</h1>
+      <div class="sub">Fünf Trainings, ein Ziel: Du bestimmst Satzglieder sicher und schnell.</div>
+    </div>
+  </div>
+  <div class="fields"><span>Name:</span><span>Start am:</span><span>Klasse:</span></div>
+
+  <div class="merk"><b>So trainierst du richtig:</b>
+    <ol style="margin:6px 0 0;padding-left:22px">
+      <li>Mache pro Tag ein Training. Das dauert etwa 20 bis 30 Minuten.</li>
+      <li>Suche immer zuerst das <b>Prädikat</b>. Dann das Subjekt. Dann den Rest.</li>
+      <li>Sprich die Fragen leise mit: Wer oder Was? Wen oder Was? Wem? Wo? Wann? Warum?</li>
+      <li>Benutze immer dieselben Farben. So merkt sich dein Kopf die Satzglieder.</li>
+      <li>Ein Stern bedeutet leicht, drei Sterne bedeuten knifflig. Fange mit den leichten Aufgaben an.</li>
+    </ol>
+  </div>
+
+  <table class="plan">
+    <tr><td>1</td><td><a href="#t1" data-view="t1"><b>Prädikat und Subjekt</b><small>Fragen finden, umkreisen, zuordnen. 20 Minuten.</small></a></td><td><span class="stempel"></span><small>Stempel</small></td></tr>
+    <tr><td style="color:#2e9e57">2</td><td><a href="#t2" data-view="t2"><b>Die Objekte</b><small>Akkusativ, Dativ und Genitiv. 25 Minuten.</small></a></td><td><span class="stempel"></span><small>Stempel</small></td></tr>
+    <tr><td style="color:#8e44ad">3</td><td><a href="#t3" data-view="t3"><b>Ort, Zeit und Grund</b><small>Wo? Wann? Warum? 25 Minuten.</small></a></td><td><span class="stempel"></span><small>Stempel</small></td></tr>
+    <tr><td style="color:#e07b00">4</td><td><a href="#t4" data-view="t4"><b>Sätze wachsen lassen</b><small>Satztreppe, Satzbaukasten, Rekord-Satz. 30 Minuten.</small></a></td><td><span class="stempel"></span><small>Stempel</small></td></tr>
+    <tr><td style="color:#c0392b">5</td><td><a href="#t5" data-view="t5"><b>Satzglieder-Profi</b><small>Alles gemischt mit Diplom. 30 Minuten.</small></a></td><td><span class="stempel"></span><small>Stempel</small></td></tr>
+  </table>
+
+  <div class="aufgabe">
+    <div class="nr">&#9733;</div>
+    <h2>Meine Satzglieder-Karte</h2>
+    <p>Welche Fragen gehören zu welchem Satzglied? Fülle die Karte nach dem ersten Training aus. Du kannst sie bei allen Aufgaben benutzen.</p>
+    <div id="karte"></div>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">&#9998;</div>
+    <h2>Mein Lernstand</h2>
+    <p>Male nach jedem Training aus, wie sicher du dich fühlst.</p>
+    <table class="tab" id="stand"></table>
+  </div>
+
+  <div class="tipp noprint" style="margin-top:18px"><b>Für die Lehrkraft:</b> Die Trainings bauen aufeinander auf. Die Lösungen stehen im Lösungsheft (<a href="#loesungen" data-view="loesungen">loesungen.html</a>). Aufgaben mit drei Sternen sind Zusatz für schnelle Kinder.</div>
+</div>
+<script>
+(function () {
+  var K = DATA.t5.karte;
+  W.el('#karte').innerHTML = '<table class="tab"><thead><tr><th>Satzglied</th><th>Meine Frage</th></tr></thead><tbody>' +
+    K.map(function (k) { return '<tr><td><span class="chip r-' + k[0] + '">' + k[1] + '</span></td><td class="blank"></td></tr>'; }).join('') +
+    '</tbody></table>';
+  var names = ['Prädikat und Subjekt', 'Die Objekte', 'Ort, Zeit und Grund', 'Sätze wachsen lassen', 'Satzglieder-Profi'];
+  W.el('#stand').innerHTML = '<thead><tr><th>Training</th><th>Datum</th><th>sicher</th><th>fast</th><th>noch üben</th></tr></thead><tbody>' +
+    names.map(function (n, i) {
+      return '<tr><td><b>' + (i + 1) + '</b> ' + n + '</td><td class="blank"></td><td style="text-align:center"><i class="box"></i></td><td style="text-align:center"><i class="box"></i></td><td style="text-align:center"><i class="box"></i></td></tr>';
+    }).join('') + '</tbody>';
+})();
+</script>
+</section>
+<section id="view-t1" class="view" style="--c:#2f6fd0">
+<button class="pdf-btn" onclick="window.print()">Als PDF herunterladen</button>
+<div class="page">
+  <div class="banner">
+    <div>
+      <h1>Training 1: Prädikat und Subjekt</h1>
+      <div class="sub">So findest du die zwei wichtigsten Satzglieder.</div>
+    </div>
+    <div class="steps" data-now="1"></div>
+  </div>
+  <div class="fields"><span>Name:</span><span>Datum:</span><span>Klasse:</span></div>
+  <div class="farbcode">Mein Farbcode: <span class="chip r-P">Prädikat = blau</span> <span class="chip r-S">Subjekt = rot</span></div>
+
+  <div class="merk"><b>Merke:</b> Zuerst suchst du immer das Prädikat. Es ist das Verb im Satz. Dann suchst du das Subjekt. Mit dem Prädikat im Kopf fragst du: <b>Wer oder Was</b> tut das?</div>
+
+  <div class="aufgabe">
+    <div class="nr">1</div>
+    <h2>Die Fragen selbst finden <span class="stars">&#9733;</span></h2>
+    <p>Setze die Wörter aus dem Wortspeicher in die Lücken ein.</p>
+    <div class="wort"><b>Wortspeicher:</b> <i>Prädikat</i> <i>Was</i> <i>geschieht</i> <i>Wer</i> <i>Was</i> <i>Katze</i></div>
+    <p>a) Das <span class="gap l"></span> ist das Verb im Satz.</p>
+    <p>b) Ich frage nach dem Prädikat: <span class="gap s"></span> tut jemand? Oder: Was <span class="gap"></span>?</p>
+    <p>c) Ich frage nach dem Subjekt: <span class="gap s"></span> oder <span class="gap s"></span> tut das?</p>
+    <p>d) Die Katze schläft. Wer schläft? Die <span class="gap"></span> ist das Subjekt.</p>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">2</div>
+    <h2>Prädikat und Subjekt aufschreiben <span class="stars">&#9733;</span></h2>
+    <p>Schreibe zuerst das <b>Prädikat</b> auf, dann das <b>Subjekt</b>.</p>
+    <table class="tab" id="a2"></table>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">3</div>
+    <h2>Umkreisen mit Farben <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Umkreise zuerst das <span class="chip r-P">Prädikat</span> blau. Dann das <span class="chip r-S">Subjekt</span> rot.</p>
+    <div class="tipp">Tipp: Das Subjekt steht nicht immer am Anfang. Frage immer: Wer oder Was + Prädikat?</div>
+    <ol class="circ" id="a3"></ol>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">4</div>
+    <h2>Zuordnen: Was ist unterstrichen? <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Kreuze an, ob der unterstrichene Teil das Subjekt oder das Prädikat ist.</p>
+    <div id="a4"></div>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">5</div>
+    <h2>Das Subjekt wachsen lassen <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Mache das Subjekt länger. Beschreibe es genauer. Das Prädikat bleibt gleich.</p>
+    <div class="tipp">Beispiel: Der Hund bellt. &rarr; Der große braune Hund von nebenan bellt.</div>
+    <div id="a5"></div>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">6</div>
+    <h2>Knifflig: Das Prädikat mit zwei Teilen <span class="stars">&#9733;&#9733;&#9733;</span></h2>
+    <p>Manchmal hat das Prädikat <b>zwei Teile</b>. Sie stehen weit auseinander. Umkreise beide Teile blau und das Subjekt rot.</p>
+    <ol class="circ" id="a6"></ol>
+  </div>
+
+  <div class="check">
+    <b>Das kann ich:</b>
+    <span class="opt"><i class="box"></i>sicher</span>
+    <span class="opt"><i class="box"></i>fast</span>
+    <span class="opt"><i class="box"></i>muss noch üben</span>
+  </div>
+</div>
+<script>
+(function () {
+  var D = DATA.t1;
+  var h = '<thead><tr><th></th><th>Satz</th><th>Prädikat</th><th>Subjekt</th></tr></thead><tbody>';
+  D.tab.forEach(function (s, i) {
+    h += '<tr><td class="n">' + (i + 1) + '</td><td>' + W.esc(W.plain(s)) + '</td><td class="blank"></td><td class="blank"></td></tr>';
+  });
+  W.el('#view-t1 #a2').innerHTML = h + '</tbody>';
+  W.circle('#view-t1 #a3', D.circle);
+  W.zuordnen('#view-t1 #a4', D.zu, [['S', 'Subjekt'], ['P', 'Prädikat']]);
+  W.el('#view-t1 #a5').innerHTML = D.erw.map(function (e, i) {
+    return '<p><b>' + (i + 1) + '.</b> ' + e.start + '</p>' + W.lines(1);
+  }).join('');
+  W.circle('#view-t1 #a6', D.circle2);
+})();
+</script>
+</section>
+<section id="view-t2" class="view" style="--c:#2e9e57">
+<button class="pdf-btn" onclick="window.print()">Als PDF herunterladen</button>
+<div class="page">
+  <div class="banner">
+    <div>
+      <h1>Training 2: Die Objekte</h1>
+      <div class="sub">Wen oder was? Wem? Wessen? Diese Fragen helfen dir.</div>
+    </div>
+    <div class="steps" data-now="2"></div>
+  </div>
+  <div class="fields"><span>Name:</span><span>Datum:</span><span>Klasse:</span></div>
+  <div class="farbcode">Mein Farbcode:
+    <span class="chip r-S">Subjekt = rot</span>
+    <span class="chip r-P">Prädikat = blau</span>
+    <span class="chip r-AO">Akkusativobjekt = grün</span>
+    <span class="chip r-DO">Dativobjekt = orange</span>
+    <span class="chip r-GO">Genitivobjekt = braun</span>
+  </div>
+
+  <div class="merk"><b>Merke:</b> Objekte ergänzen das Prädikat. Es gibt drei Arten. Das Genitivobjekt ist selten. Du erkennst es nur an wenigen Verben, zum Beispiel <i>gedenken</i> und <i>bedürfen</i>.</div>
+
+  <div class="aufgabe">
+    <div class="nr">1</div>
+    <h2>Die Fragen selbst finden <span class="stars">&#9733;</span></h2>
+    <p>Schreibe die passende Frage in die Tabelle. Die Wörter aus dem Wortspeicher helfen dir.</p>
+    <div class="wort"><b>Wortspeicher:</b> <i>Wem?</i> <i>Wessen?</i> <i>Wen oder was?</i></div>
+    <table class="tab">
+      <thead><tr><th>Satzglied</th><th>Meine Frage</th><th>Beispiel</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip r-AO">Akkusativobjekt</span></td><td class="blank"></td><td>Mia liest <u>ein Buch</u>.</td></tr>
+        <tr><td><span class="chip r-DO">Dativobjekt</span></td><td class="blank"></td><td>Mia hilft <u>ihrer Oma</u>.</td></tr>
+        <tr><td><span class="chip r-GO">Genitivobjekt</span></td><td class="blank"></td><td>Wir gedenken <u>der Opfer</u>.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">2</div>
+    <h2>Fragen stellen und antworten <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Stelle die Frage zum gesuchten Objekt. Schreibe dann die Antwort auf.</p>
+    <div class="tipp">Beispiel: Tom hilft seiner Oma. Gesucht: Dativobjekt. Frage: Wem hilft Tom? Antwort: seiner Oma.</div>
+    <div id="a2"></div>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">3</div>
+    <h2>Umkreisen mit Farben <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Umkreise: <span class="chip r-P">Prädikat</span> blau, <span class="chip r-S">Subjekt</span> rot, <span class="chip r-AO">Akkusativobjekt</span> grün, <span class="chip r-DO">Dativobjekt</span> orange, <span class="chip r-GO">Genitivobjekt</span> braun.</p>
+    <ol class="circ" id="a3"></ol>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">4</div>
+    <h2>Zuordnen: Welches Objekt ist das? <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Kreuze an, welches Objekt unterstrichen ist.</p>
+    <div id="a4"></div>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">5</div>
+    <h2>Sätze mit Objekten ergänzen <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Schreibe ein passendes Objekt in die Lücke. Die Frage in der Klammer verrät dir, welches.</p>
+    <div class="lueck" id="a5" style="font-size:19px;line-height:2.5"></div>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">6</div>
+    <h2>Knifflig: Zwei Objekte in einem Satz <span class="stars">&#9733;&#9733;&#9733;</span></h2>
+    <p>Dieser Satz hat Dativobjekt und Akkusativobjekt. Außerdem ist ein Genitivobjekt dabei. Umkreise alle fünf Satzglieder mit den Farben.</p>
+    <ol class="circ" id="a6"></ol>
+    <p>Schreibe einen eigenen Satz mit <b>Subjekt, Prädikat, Dativobjekt und Akkusativobjekt</b>:</p>
+    <div data-n="2"></div>
+  </div>
+
+  <div class="check">
+    <b>Das kann ich:</b>
+    <span class="opt"><i class="box"></i>sicher</span>
+    <span class="opt"><i class="box"></i>fast</span>
+    <span class="opt"><i class="box"></i>muss noch üben</span>
+  </div>
+</div>
+<script>
+(function () {
+  var D = DATA.t2;
+  W.el('#view-t2 #a2').innerHTML = D.frage.map(function (f, i) {
+    return '<p><b>' + (i + 1) + '.</b> ' + f.t + ' <span class="chip r-' + f.ziel + '">Gesucht: ' + W.LONG[f.ziel] + '</span></p>' +
+      '<p style="margin:2px 0 0">Frage:</p>' + W.lines(1) + '<p style="margin:2px 0 0">Antwort:</p>' + W.lines(1);
+  }).join('');
+  W.circle('#view-t2 #a3', D.circle);
+  W.zuordnen('#view-t2 #a4', D.zu, [['AO', 'Akkusativobjekt'], ['DO', 'Dativobjekt'], ['GO', 'Genitivobjekt']], false, 'Satz');
+  W.el('#view-t2 #a5').innerHTML = D.luecke.map(function (l, i) {
+    return '<div>' + (i + 1) + '. ' + l.t.replace('<g></g>', '<span class="gap l"></span>') + '</div>';
+  }).join('');
+  W.circle('#view-t2 #a6', D.circle2);
+})();
+</script>
+</section>
+<section id="view-t3" class="view" style="--c:#8e44ad">
+<button class="pdf-btn" onclick="window.print()">Als PDF herunterladen</button>
+<div class="page">
+  <div class="banner">
+    <div>
+      <h1>Training 3: Ort, Zeit und Grund</h1>
+      <div class="sub">Wo? Wann? Warum? Das sind die adverbialen Bestimmungen.</div>
+    </div>
+    <div class="steps" data-now="3"></div>
+  </div>
+  <div class="fields"><span>Name:</span><span>Datum:</span><span>Klasse:</span></div>
+  <div class="farbcode">Mein Farbcode:
+    <span class="chip r-S">Subjekt = rot</span>
+    <span class="chip r-P">Prädikat = blau</span>
+    <span class="chip r-ORT">Ort = lila</span>
+    <span class="chip r-ZEIT">Zeit = türkis</span>
+    <span class="chip r-GRUND">Grund = rosa</span>
+  </div>
+
+  <div class="merk"><b>Merke:</b> Eine <b>adverbiale Bestimmung</b> sagt dir mehr über das, was im Satz passiert. Sie sagt, <b>wo</b>, <b>wann</b> oder <b>warum</b> etwas geschieht. Sie kann mehrere Wörter haben, zum Beispiel <i>wegen des Regens</i>.</div>
+
+  <div class="aufgabe">
+    <div class="nr">1</div>
+    <h2>Die Fragen selbst finden <span class="stars">&#9733;</span></h2>
+    <p>Schreibe die Frage in die Tabelle.</p>
+    <div class="wort"><b>Wortspeicher:</b> <i>Wo?</i> <i>Wann?</i> <i>Warum?</i></div>
+    <table class="tab">
+      <thead><tr><th>Satzglied</th><th>Meine Frage</th><th>Beispiel</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip r-ORT">Ort</span></td><td class="blank"></td><td>Die Katze schläft <u>auf dem Sofa</u>.</td></tr>
+        <tr><td><span class="chip r-ZEIT">Zeit</span></td><td class="blank"></td><td>Wir schreiben <u>am Freitag</u> einen Test.</td></tr>
+        <tr><td><span class="chip r-GRUND">Grund</span></td><td class="blank"></td><td>Lena bleibt <u>wegen der Grippe</u> zu Hause.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">2</div>
+    <h2>Zuordnen: Ort, Zeit oder Grund? <span class="stars">&#9733;</span></h2>
+    <p>Lies die Wortgruppe. Stelle dir die Frage dazu. Kreuze dann an.</p>
+    <div id="a2"></div>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">3</div>
+    <h2>Umkreisen mit Farben <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Umkreise: <span class="chip r-P">Prädikat</span> blau, <span class="chip r-S">Subjekt</span> rot, <span class="chip r-ORT">Ort</span> lila, <span class="chip r-ZEIT">Zeit</span> türkis, <span class="chip r-GRUND">Grund</span> rosa.</p>
+    <div class="tipp">Tipp: Ein Satz kann mehrere dieser Angaben haben. Frage der Reihe nach: Wo? Wann? Warum?</div>
+    <ol class="circ" id="a3"></ol>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">4</div>
+    <h2>Fragen zum Satzglied stellen <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Schreibe die Frage zum unterstrichenen Satzglied auf. Kreuze dann an, welches Satzglied es ist.</p>
+    <div id="a4"></div>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">5</div>
+    <h2>Sätze erweitern <span class="stars">&#9733;&#9733;&#9733;</span></h2>
+    <p>Erweitere die Sätze Schritt für Schritt. Schreibe jeweils den ganzen neuen Satz auf.</p>
+    <div id="a5"></div>
+  </div>
+
+  <div class="check">
+    <b>Das kann ich:</b>
+    <span class="opt"><i class="box"></i>sicher</span>
+    <span class="opt"><i class="box"></i>fast</span>
+    <span class="opt"><i class="box"></i>muss noch üben</span>
+  </div>
+</div>
+<script>
+(function () {
+  var D = DATA.t3, OPT = [['ORT', 'Ort'], ['ZEIT', 'Zeit'], ['GRUND', 'Grund']];
+  // Aufgabe 2: Wortkarten mit drei Kästchen
+  W.el('#view-t3 #a2').innerHTML = '<table class="tab"><thead><tr><th></th><th>Wortgruppe</th><th>Das ist ...</th></tr></thead><tbody>' +
+    D.zu.map(function (z, i) {
+      return '<tr><td class="n">' + (i + 1) + '</td><td><b>' + z.t + '</b></td><td>' +
+        OPT.map(function (o) { return '<span class="opt"><i class="box"></i>' + o[1] + '</span>'; }).join('') + '</td></tr>';
+    }).join('') + '</tbody></table>';
+  W.circle('#view-t3 #a3', D.circle);
+  W.el('#view-t3 #a4').innerHTML = D.fq.map(function (f, i) {
+    return '<p><b>' + (i + 1) + '.</b> ' + f.t + '</p>' +
+      '<p style="margin:0">Frage: <span class="gap l"></span> ' +
+      OPT.map(function (o) { return '<span class="opt"><i class="box"></i>' + o[1] + '</span>'; }).join('') + '</p>';
+  }).join('');
+  W.el('#view-t3 #a5').innerHTML = D.erw.map(function (e, i) {
+    return '<p class="start">' + (i + 1) + '. ' + e.start + '</p>' +
+      '<p><span class="chip r-ORT">+ Ort (Wo?)</span></p>' + W.lines(1) +
+      '<p><span class="chip r-ZEIT">+ Zeit (Wann?)</span></p>' + W.lines(1) +
+      '<p><span class="chip r-GRUND">+ Grund (Warum?)</span></p>' + W.lines(1) +
+      '<p><b>Jetzt alles in einem Satz:</b></p>' + W.lines(2);
+  }).join('');
+})();
+</script>
+</section>
+<section id="view-t4" class="view" style="--c:#e07b00">
+<button class="pdf-btn" onclick="window.print()">Als PDF herunterladen</button>
+<div class="page">
+  <div class="banner">
+    <div>
+      <h1>Training 4: Sätze wachsen lassen</h1>
+      <div class="sub">Aus kurzen Sätzen werden lange, spannende Sätze.</div>
+    </div>
+    <div class="steps" data-now="4"></div>
+  </div>
+  <div class="fields"><span>Name:</span><span>Datum:</span><span>Klasse:</span></div>
+  <div class="farbcode">Mein Farbcode:
+    <span class="chip r-S">Subjekt</span> <span class="chip r-P">Prädikat</span> <span class="chip r-AO">Akk.-Objekt</span>
+    <span class="chip r-DO">Dat.-Objekt</span> <span class="chip r-ORT">Ort</span> <span class="chip r-ZEIT">Zeit</span> <span class="chip r-GRUND">Grund</span>
+  </div>
+
+  <div class="merk"><b>Merke:</b> Ein Satz ist wie ein Baukasten. Du kannst immer ein Satzglied dazubauen. Das <b>Prädikat bleibt im Aussagesatz auf Platz 2</b>. Alles andere darfst du hin- und herschieben.</div>
+
+  <div class="aufgabe treppe">
+    <div class="nr">1</div>
+    <h2>Die Satztreppe <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Baue bei jeder Stufe ein Satzglied dazu. Schreibe auf jeder Stufe den <b>ganzen Satz</b> neu auf.</p>
+    <div id="a1"></div>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">2</div>
+    <h2>Zuordnen: Welche Frage passt? <span class="stars">&#9733;</span></h2>
+    <p>Der Satz heißt: <b>Mama kocht.</b> Welche Frage passt zu welcher Erweiterung? Schreibe den Buchstaben in das Kästchen.</p>
+    <div id="a2"></div>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">3</div>
+    <h2>Umkreisen mit Farben <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Umkreise alle Satzglieder in der passenden Farbe.</p>
+    <ol class="circ" id="a3"></ol>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">4</div>
+    <h2>Der Satzbaukasten <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Wähle aus jeder Spalte ein Satzglied aus. Baue daraus drei Sätze. Die Sätze dürfen auch lustig oder unsinnig sein! Achte auf die Wortstellung: Das Prädikat steht auf Platz 2.</p>
+    <div id="a4"></div>
+    <p><b>Mein Satz 1:</b></p><div data-n="2"></div>
+    <p><b>Mein Satz 2:</b></p><div data-n="2"></div>
+    <p><b>Mein Satz 3:</b></p><div data-n="2"></div>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">5</div>
+    <h2>Rekord-Satz <span class="stars">&#9733;&#9733;&#9733;</span></h2>
+    <p>Schreibe einen möglichst langen Satz mit diesem Anfang: <b>Der Hund frisst.</b> Jedes neue Satzglied gibt einen Punkt. Wie viele schaffst du?</p>
+    <div data-n="3"></div>
+    <p>Meine Satzglieder: <span class="opt"><i class="box"></i>Subjekt</span><span class="opt"><i class="box"></i>Prädikat</span><span class="opt"><i class="box"></i>Akk.-Objekt</span><span class="opt"><i class="box"></i>Dat.-Objekt</span><span class="opt"><i class="box"></i>Ort</span><span class="opt"><i class="box"></i>Zeit</span><span class="opt"><i class="box"></i>Grund</span></p>
+    <p>Mein Rekord: <span class="gap s"></span> von 7 Satzgliedern.</p>
+  </div>
+
+  <div class="check">
+    <b>Das kann ich:</b>
+    <span class="opt"><i class="box"></i>sicher</span>
+    <span class="opt"><i class="box"></i>fast</span>
+    <span class="opt"><i class="box"></i>muss noch üben</span>
+  </div>
+</div>
+<script>
+(function () {
+  var D = DATA.t4, ROLE_NAME = W.LONG;
+  var letters = ['A', 'B'];
+  W.el('#view-t4 #a1').innerHTML = D.treppen.map(function (t, k) {
+    return '<div class="treppe"><p class="start">Treppe ' + letters[k] + ': ' + t.start + '</p>' +
+      t.stufen.map(function (s, i) {
+        return '<div class="stufe"><div class="kopf">Stufe ' + (i + 1) + ': <span class="chip r-' + s.r + '">+ ' + ROLE_NAME[s.r] + '</span> (' + s.f + ')' +
+          (s.tipp ? ' <span style="font-weight:normal;font-size:14px">Tipp: ' + s.tipp + '</span>' : '') + '</div>' + W.lines(1) + '</div>';
+      }).join('') + '</div>';
+  }).join('');
+
+  var fr = D.zuFragen.map(function (f) { return '<b>' + f[0] + '</b> ' + f[1]; }).join(' &nbsp;&nbsp; ');
+  W.el('#view-t4 #a2').innerHTML = '<div class="wort"><b>Fragen:</b> ' + fr + '</div>' +
+    '<table class="tab"><thead><tr><th></th><th>Erweiterung</th><th>Passende Frage</th></tr></thead><tbody>' +
+    D.zu.map(function (z, i) {
+      return '<tr><td class="n">' + (i + 1) + '</td><td><b>' + z.t + '</b></td><td><span class="box" style="width:34px;height:34px;line-height:28px"></span></td></tr>';
+    }).join('') + '</tbody></table>';
+
+  W.el('#view-t4 #a3').innerHTML = '<li>' + W.esc(W.plain(D.farb)) + '</li>';
+
+  var cols = ['S', 'P', 'DO', 'AO', 'ORT', 'ZEIT', 'GRUND'];
+  var head = cols.map(function (c) { return '<th><span class="chip r-' + c + '">' + W.ROLES[c] + '</span></th>'; }).join('');
+  var rows = '';
+  for (var i = 0; i < 4; i++) {
+    rows += '<tr>' + cols.map(function (c) { return '<td style="font-size:14px">' + D.baukasten[c][i] + '</td>'; }).join('') + '</tr>';
+  }
+  W.el('#view-t4 #a4').innerHTML = '<table class="tab eng"><thead><tr>' + head + '</tr></thead><tbody>' + rows + '</tbody></table>';
+})();
+</script>
+</section>
+<section id="view-t5" class="view" style="--c:#c0392b">
+<button class="pdf-btn" onclick="window.print()">Als PDF herunterladen</button>
+<div class="page">
+  <div class="banner">
+    <div>
+      <h1>Training 5: Satzglieder-Profi</h1>
+      <div class="sub">Alles zusammen: Zeig, was du in vier Trainings gelernt hast.</div>
+    </div>
+    <div class="steps" data-now="5"></div>
+  </div>
+  <div class="fields"><span>Name:</span><span>Datum:</span><span>Klasse:</span></div>
+  <div class="farbcode">Mein Farbcode:
+    <span class="chip r-S">Subjekt</span> <span class="chip r-P">Prädikat</span> <span class="chip r-AO">Akk.-Objekt</span>
+    <span class="chip r-DO">Dat.-Objekt</span> <span class="chip r-GO">Gen.-Objekt</span>
+    <span class="chip r-ORT">Ort</span> <span class="chip r-ZEIT">Zeit</span> <span class="chip r-GRUND">Grund</span>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">1</div>
+    <h2>Die Fragen aus dem Kopf <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Schreibe zu jedem Satzglied die Frage auf. Versuche es ohne Hilfe. Danach kannst du mit deinen Trainings vergleichen.</p>
+    <div id="a1"></div>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">2</div>
+    <h2>Umkreisen: Jetzt kommt alles dran <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Umkreise alle Satzglieder mit den Farben. Beginne mit dem Prädikat. Denke an zweiteilige Prädikate!</p>
+    <ol class="circ" id="a2"></ol>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">3</div>
+    <h2>Zuordnen: Satzglieder in die Tabelle <span class="stars">&#9733;&#9733;&#9733;</span></h2>
+    <p>Schreibe jedes Satzglied in die richtige Spalte. Nicht jeder Satz hat alle Satzglieder.</p>
+    <div id="a3"></div>
+  </div>
+
+  <div class="aufgabe">
+    <div class="nr">4</div>
+    <h2>Die Umstellprobe <span class="stars">&#9733;&#9733;</span></h2>
+    <p>Stelle den Satz dreimal um. Es darf nichts verloren gehen. Satzglieder bleiben zusammen!</p>
+    <p class="start" id="a4s"></p>
+    <p>1.</p><div data-n="1"></div>
+    <p>2.</p><div data-n="1"></div>
+    <p>3.</p><div data-n="1"></div>
+    <p>Welches Satzglied ist in allen Sätzen auf Platz 2 geblieben? <span class="gap l"></span></p>
+  </div>
+
+  <div class="aufgabe pagebreak">
+    <div class="nr">5</div>
+    <h2>Sätze erweitern <span class="stars">&#9733;&#9733;&#9733;</span></h2>
+    <p>Erweitere jeden Satz um <b>mindestens drei verschiedene Satzglieder</b>. Schreibe auf, welche du benutzt hast.</p>
+    <div id="a5"></div>
+  </div>
+
+  <div class="diplom">
+    <h2>Satzglieder-Diplom</h2>
+    <p>Dieses Training hat geschafft:</p>
+    <p><span class="gap l" style="min-width:300px"></span></p>
+    <p style="font-size:14px;color:#555">Datum: <span class="gap"></span> &nbsp; Unterschrift der Lehrkraft: <span class="gap l"></span></p>
+  </div>
+
+  <div class="check">
+    <b>Das kann ich:</b>
+    <span class="opt"><i class="box"></i>sicher</span>
+    <span class="opt"><i class="box"></i>fast</span>
+    <span class="opt"><i class="box"></i>muss noch üben</span>
+  </div>
+</div>
+<script>
+(function () {
+  var D = DATA.t5;
+  W.el('#view-t5 #a1').innerHTML = '<table class="tab"><thead><tr><th>Satzglied</th><th>Meine Frage</th></tr></thead><tbody>' +
+    D.karte.map(function (k) {
+      return '<tr><td><span class="chip r-' + k[0] + '">' + k[1] + '</span></td><td class="blank"></td></tr>';
+    }).join('') + '</tbody></table>';
+  W.circle('#view-t5 #a2', D.circle);
+  var cols = ['S', 'P', 'DO', 'AO', 'ORT', 'ZEIT', 'GRUND'];
+  var head = cols.map(function (c) { return '<th><span class="chip r-' + c + '">' + W.ROLES[c] + '</span></th>'; }).join('');
+  W.el('#view-t5 #a3').innerHTML = D.tabelle.map(function (s, i) {
+    return '<p><b>Satz ' + (i + 1) + ':</b> ' + W.esc(W.plain(s)) + '</p>' +
+      '<table class="tab eng"><thead><tr>' + head + '</tr></thead><tbody><tr>' +
+      cols.map(function () { return '<td class="blank" style="height:64px"></td>'; }).join('') + '</tr></tbody></table>';
+  }).join('');
+  W.el('#view-t5 #a4s').textContent = D.umstell;
+  W.el('#view-t5 #a5').innerHTML = D.erw.map(function (e, i) {
+    return '<p class="start">' + (i + 1) + '. ' + e.start + '</p>' + W.lines(2) +
+      '<p>Benutzt: <span class="opt"><i class="box"></i>Akk.-Objekt</span><span class="opt"><i class="box"></i>Dat.-Objekt</span><span class="opt"><i class="box"></i>Ort</span><span class="opt"><i class="box"></i>Zeit</span><span class="opt"><i class="box"></i>Grund</span></p>';
+  }).join('');
+})();
+</script>
+</section>
+<section id="view-loesungen" class="view" style="--c:#555b6e">
+<button class="pdf-btn" onclick="window.print()">Als PDF herunterladen</button>
+<div class="page">
+  <div class="banner">
+    <div>
+      <h1>Lösungsheft: Satzglieder-Training</h1>
+      <div class="sub">Für die Lehrkraft. Zu Training 1 bis 5.</div>
+    </div>
+  </div>
+  <div class="farbcode" style="margin-top:12px">Farben:
+    <span class="chip r-S">Subjekt</span> <span class="chip r-P">Prädikat</span> <span class="chip r-AO">Akk.-Objekt</span>
+    <span class="chip r-DO">Dat.-Objekt</span> <span class="chip r-GO">Gen.-Objekt</span>
+    <span class="chip r-ORT">Ort</span> <span class="chip r-ZEIT">Zeit</span> <span class="chip r-GRUND">Grund</span>
+  </div>
+  <div class="tipp">Bei freien Aufgaben (Erweitern, eigene Sätze) sind die Lösungen Beispiele. Andere sinnvolle Sätze sind richtig, wenn die gefragte Frage wirklich beantwortet wird und das Prädikat im Aussagesatz auf Platz 2 steht.</div>
+  <div id="out"></div>
+</div>
+<script>
+(function () {
+  var out = '';
+  function sec(title, nr) { return '<div class="aufgabe"><div class="nr">' + nr + '</div><h2>' + title + '</h2>'; }
+  function list(arr, allowed) {
+    return '<ol class="circ sol">' + arr.map(function (s) { return '<li>' + W.colored(s, allowed) + '</li>'; }).join('') + '</ol>';
+  }
+  function zuSol(items, options) {
+    var h = '<table class="tab"><tbody>';
+    items.forEach(function (it, i) {
+      var o = options.filter(function (o) { return o[0] === it.a; })[0];
+      h += '<tr><td class="n">' + (i + 1) + '</td><td>' + it.t + '</td><td class="sol-txt">' + o[1] + '</td></tr>';
+    });
+    return h + '</tbody></table>';
+  }
+  function byRole(str, role) {
+    return W.parse(str).filter(function (s) { return s.role === role; }).map(function (s) { return s.text; }).join(' ... ');
+  }
+  function bsp(txt) { return '<span class="sol-txt">' + txt + '</span>'; }
+
+  var D1 = DATA.t1, D2 = DATA.t2, D3 = DATA.t3, D4 = DATA.t4, D5 = DATA.t5;
+  var SP = [['S', 'Subjekt'], ['P', 'Prädikat']];
+
+  /* ---------- Training 1 ---------- */
+  out += '<h2 style="color:#2f6fd0;margin:22px 0 0">Training 1: Prädikat und Subjekt</h2>';
+  out += sec('Aufgabe 1: Fragen finden', 1) + '<p>a) Prädikat &nbsp; b) Was / geschieht &nbsp; c) Wer / Was &nbsp; d) Katze</p></div>';
+  out += sec('Aufgabe 2: Prädikat und Subjekt', 2) + '<table class="tab"><thead><tr><th></th><th>Satz</th><th>Prädikat</th><th>Subjekt</th></tr></thead><tbody>' +
+    D1.tab.map(function (s, i) {
+      return '<tr><td class="n">' + (i + 1) + '</td><td>' + W.esc(W.plain(s)) + '</td><td class="sol-txt">' + byRole(s, 'P') + '</td><td class="sol-txt">' + byRole(s, 'S') + '</td></tr>';
+    }).join('') + '</tbody></table></div>';
+  out += sec('Aufgabe 3: Umkreisen', 3) + list(D1.circle, ['S', 'P']) + '</div>';
+  out += sec('Aufgabe 4: Zuordnen', 4) + zuSol(D1.zu, SP) + '</div>';
+  out += sec('Aufgabe 5: Subjekt wachsen lassen (Beispiele)', 5) + '<ol>' + D1.erw.map(function (e) { return '<li>' + bsp(e.bsp) + '</li>'; }).join('') + '</ol></div>';
+  out += sec('Aufgabe 6: Zweiteiliges Prädikat', 6) + list(D1.circle2, ['S', 'P']) + '</div>';
+
+  /* ---------- Training 2 ---------- */
+  out += '<h2 style="color:#2e9e57;margin:30px 0 0" class="pagebreak">Training 2: Die Objekte</h2>';
+  out += sec('Aufgabe 1: Fragen', 1) + '<p>Akkusativobjekt: <b>Wen oder was?</b> &nbsp; Dativobjekt: <b>Wem?</b> &nbsp; Genitivobjekt: <b>Wessen?</b></p></div>';
+  out += sec('Aufgabe 2: Fragen stellen und antworten', 2) + '<table class="tab"><thead><tr><th></th><th>Gesucht</th><th>Frage</th><th>Antwort</th></tr></thead><tbody>' +
+    D2.frage.map(function (f, i) {
+      return '<tr><td class="n">' + (i + 1) + '</td><td>' + W.LONG[f.ziel] + '</td><td class="sol-txt">' + f.q + '</td><td class="sol-txt">' + f.a + '</td></tr>';
+    }).join('') + '</tbody></table></div>';
+  out += sec('Aufgabe 3: Umkreisen', 3) + list(D2.circle) + '</div>';
+  out += sec('Aufgabe 4: Zuordnen', 4) + zuSol(D2.zu, [['AO', 'Akkusativobjekt'], ['DO', 'Dativobjekt'], ['GO', 'Genitivobjekt']]) + '</div>';
+  out += sec('Aufgabe 5: Lücken (Beispiele)', 5) + '<ol>' + D2.luecke.map(function (l) {
+    return '<li>' + l.t.replace('<g></g>', bsp(l.bsp)) + '</li>';
+  }).join('') + '</ol></div>';
+  out += sec('Aufgabe 6: Knifflig', 6) + list(D2.circle2) +
+    '<p>Eigener Satz: Subjekt, Prädikat, Dativobjekt und Akkusativobjekt. Beispiel: ' + bsp('Mia schenkt ihrer Oma eine Blume.') + '</p></div>';
+
+  /* ---------- Training 3 ---------- */
+  out += '<h2 style="color:#8e44ad;margin:30px 0 0" class="pagebreak">Training 3: Ort, Zeit und Grund</h2>';
+  out += sec('Aufgabe 1: Fragen', 1) + '<p>Ort: <b>Wo?</b> &nbsp; Zeit: <b>Wann?</b> &nbsp; Grund: <b>Warum?</b></p></div>';
+  out += sec('Aufgabe 2: Zuordnen', 2) + zuSol(D3.zu.map(function (z) { return { t: '<b>' + z.t + '</b>', a: z.a }; }), [['ORT', 'Ort'], ['ZEIT', 'Zeit'], ['GRUND', 'Grund']]) + '</div>';
+  out += sec('Aufgabe 3: Umkreisen', 3) + list(D3.circle, ['S', 'P', 'ORT', 'ZEIT', 'GRUND']) + '</div>';
+  out += sec('Aufgabe 4: Fragen zum Satzglied', 4) + '<table class="tab"><tbody>' + D3.fq.map(function (f, i) {
+    var name = { ORT: 'Ort', ZEIT: 'Zeit', GRUND: 'Grund' }[f.a];
+    return '<tr><td class="n">' + (i + 1) + '</td><td>' + f.t + '</td><td class="sol-txt">' + f.q + '</td><td class="sol-txt">' + name + '</td></tr>';
+  }).join('') + '</tbody></table></div>';
+  out += sec('Aufgabe 5: Sätze erweitern (Beispiele)', 5) + D3.erw.map(function (e) {
+    return '<p><b>' + e.start + '</b></p><ul><li>Ort: ' + bsp(e.ort) + '</li><li>Zeit: ' + bsp(e.zeit) + '</li><li>Grund: ' + bsp(e.grund) + '</li><li>Alles: ' + bsp(e.alles) + '</li></ul>';
+  }).join('') + '</div>';
+
+  /* ---------- Training 4 ---------- */
+  out += '<h2 style="color:#e07b00;margin:30px 0 0" class="pagebreak">Training 4: Sätze wachsen lassen</h2>';
+  out += sec('Aufgabe 1: Satztreppe (Beispiele)', 1) + D4.treppen.map(function (t, k) {
+    return '<p><b>Treppe ' + 'AB'[k] + ': ' + t.start + '</b></p><ol>' + t.stufen.map(function (s) {
+      return '<li><span class="chip r-' + s.r + '">' + W.LONG[s.r] + '</span> ' + bsp(s.bsp) + '</li>';
+    }).join('') + '</ol>';
+  }).join('') + '</div>';
+  out += sec('Aufgabe 2: Zuordnen', 2) + '<table class="tab"><tbody>' + D4.zu.map(function (z, i) {
+    var f = D4.zuFragen.filter(function (x) { return x[0] === z.a; })[0];
+    return '<tr><td class="n">' + (i + 1) + '</td><td><b>' + z.t + '</b></td><td class="sol-txt">' + z.a + ': ' + f[1] + '</td></tr>';
+  }).join('') + '</tbody></table></div>';
+  out += sec('Aufgabe 3: Umkreisen', 3) + list([D4.farb]) + '</div>';
+  out += sec('Aufgabe 4: Satzbaukasten (Beispiele)', 4) + '<ul>' + D4.baukastenBsp.map(function (b) { return '<li>' + bsp(b) + '</li>'; }).join('') +
+    '</ul><p class="note">Auf die Stellung achten: Das Prädikat steht auf Platz 2, die Kinder dürfen jedes Satzglied nach vorn ziehen.</p></div>';
+  out += sec('Aufgabe 5: Rekord-Satz', 5) + '<p>Beispiel mit sieben Satzgliedern: ' + bsp('Am Montag frisst der Hund aus Hunger im Garten seinem Freund den Knochen weg.') + '</p>' +
+    '<p class="note">Hier besteht das Prädikat aus zwei Teilen (frisst ... weg). Das ist erlaubt. Der Satz klingt witzig, ist aber richtig gebaut.</p></div>';
+
+  /* ---------- Training 5 ---------- */
+  out += '<h2 style="color:#c0392b;margin:30px 0 0" class="pagebreak">Training 5: Satzglieder-Profi</h2>';
+  out += sec('Aufgabe 1: Fragen aus dem Kopf', 1) + '<table class="tab"><tbody>' + D5.karte.map(function (k) {
+    return '<tr><td><span class="chip r-' + k[0] + '">' + k[1] + '</span></td><td class="sol-txt">' + k[2] + '</td></tr>';
+  }).join('') + '</tbody></table></div>';
+  out += sec('Aufgabe 2: Umkreisen', 2) + list(D5.circle) + '</div>';
+  var cols = ['S', 'P', 'DO', 'AO', 'ORT', 'ZEIT', 'GRUND'];
+  out += sec('Aufgabe 3: Tabelle', 3) + D5.tabelle.map(function (s, i) {
+    return '<p><b>Satz ' + (i + 1) + ':</b> ' + W.esc(W.plain(s)) + '</p><table class="tab eng"><thead><tr>' +
+      cols.map(function (c) { return '<th>' + W.ROLES[c] + '</th>'; }).join('') + '</tr></thead><tbody><tr>' +
+      cols.map(function (c) { return '<td class="sol-txt">' + byRole(s, c) + '</td>'; }).join('') + '</tr></tbody></table>';
+  }).join('') + '</div>';
+  out += sec('Aufgabe 4: Umstellprobe', 4) + '<p>' + W.esc(D5.umstell) + '</p><ol>' +
+    D5.umstellBsp.map(function (u) { return '<li>' + bsp(u) + '</li>'; }).join('') + '</ol>' +
+    '<p>Auf Platz 2 bleibt immer das <b>Prädikat</b> (schreibt).</p></div>';
+  out += sec('Aufgabe 5: Sätze erweitern (Beispiele)', 5) + '<ol>' + D5.erw.map(function (e) {
+    return '<li>' + e.start + ' &rarr; ' + bsp(e.bsp) + '</li>';
+  }).join('') + '</ol></div>';
+
+  W.el('#view-loesungen #out').innerHTML = out;
+})();
+</script>
+</section>
+<section id="view-quiz" class="view">
+  <div class="qscreen" id="q-map">
+    <div class="qhead">
+      <h1>Dein Satzglieder-Quiz</h1>
+      <p>Fünf Stationen. Tippe, wähle und sammle Sterne.</p>
+    </div>
+    <div class="qr-box" id="qr-box">
+      <div id="qr-img"></div>
+      <div>
+        <h2>Quiz am iPad starten</h2>
+        <p>Kamera öffnen, auf den QR-Code halten und auf den Link tippen. Dann eine Station wählen.</p>
+        <p class="note" id="qr-url"></p>
+      </div>
+    </div>
+    <div class="path" id="q-path"></div>
+    <div class="qfoot">
+      <button class="btn" id="q-cert-btn">Meine Urkunde</button>
+      <button class="btn ghost" id="q-reset">Neu starten</button>
+    </div>
+  </div>
+
+  <div class="qscreen" id="q-play">
+    <div class="hud">
+      <span class="badge" id="p-badge"></span>
+      <div class="bar"><i id="p-bar"></i></div>
+      <span class="pts" id="p-pts"></span>
+    </div>
+    <div class="play-card">
+      <div class="prompt" id="p-prompt"></div>
+      <div class="subprompt" id="p-sub"></div>
+      <div id="p-area"></div>
+      <div class="feedback" id="p-fb" aria-live="polite"></div>
+      <div class="play-actions">
+        <button class="link-btn" id="p-quit">Station abbrechen</button>
+        <button class="btn big" id="p-next" style="visibility:hidden">Weiter</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="qscreen" id="q-result"><div class="result" id="q-result-in"></div></div>
+
+  <div class="qscreen" id="q-cert">
+    <div class="cert" id="cert-box"></div>
+    <div class="qfoot noprint">
+      <button class="btn" id="cert-print">Urkunde drucken</button>
+      <button class="btn ghost" id="cert-back">Zurück zur Reise</button>
+    </div>
+  </div>
+</section>
+</main>
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     Navigation
+     ========================================================= */
+  var VIEWS = ['start', 't1', 't2', 't3', 't4', 't5', 'loesungen', 'quiz'];
+  var KID = /[?&]kind(&|=|$)/.test(location.search);
+  var QUIZ_URL = 'https://jomayer2204-sys.github.io/satzglieder-training/?kind#quiz';
+  var STORE_KEY = 'satzglieder-training-v1';
+  var current = 'start';
+  if (KID) document.body.classList.add('kid');
+
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  var esc = W.esc;
+
+  function clearPrint() {
+    document.body.classList.remove('printing');
+    $$('.print-target, .print-hide').forEach(function (e) { e.classList.remove('print-target', 'print-hide'); });
+  }
+  function doPrint(showSel, hideSels) {
+    clearPrint();
+    document.body.classList.add('printing');
+    $(showSel).classList.add('print-target');
+    (hideSels || []).forEach(function (s) { $(s).classList.add('print-hide'); });
+    window.addEventListener('afterprint', clearPrint, { once: true });
+    window.print();
+  }
+
+  function showView(name) {
+    if (KID) name = 'quiz';
+    if (VIEWS.indexOf(name) < 0) name = 'start';
+    current = name;
+    clearPrint();
+    VIEWS.forEach(function (v) { $('#view-' + v).classList.toggle('active', v === name); });
+    $$('#nav button').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-view') === name); });
+    if (name === 'quiz') quizEnter();
+    try { history.replaceState(null, '', '#' + name); } catch (e) { /* file:// */ }
+    window.scrollTo(0, 0);
+  }
+
+  document.addEventListener('click', function (e) {
+    var n = e.target.closest('[data-view]');
+    if (n) { e.preventDefault(); showView(n.getAttribute('data-view')); }
+  });
+
+  /* =========================================================
+     Quiz-Daten (aus denselben Sätzen wie die Arbeitsblätter)
+     ========================================================= */
+  var ORDER = ['S', 'P', 'AO', 'DO', 'GO', 'ORT', 'ZEIT', 'GRUND'];
+  var HINT = {
+    S: 'Such zuerst das Prädikat. Dann frage: Wer oder Was + Prädikat?',
+    P: 'Das Prädikat ist das Verb. Es sagt, was jemand tut oder was passiert.',
+    AO: 'Frage: Wen oder Was + Prädikat + Subjekt?',
+    DO: 'Frage: Wem? Meistens ist es eine Person, die etwas bekommt.',
+    GO: 'Frage: Wessen? Das Genitivobjekt ist selten, zum Beispiel bei "gedenken".',
+    ORT: 'Frage: Wo? Es sagt, an welchem Ort etwas passiert.',
+    ZEIT: 'Frage: Wann? Es sagt, zu welcher Zeit etwas passiert.',
+    GRUND: 'Frage: Warum? Es sagt, aus welchem Grund etwas passiert.'
+  };
+  var D = DATA;
+  var QFRAGE = { S: 'Wer oder Was?', P: 'Was tut jemand?', AO: 'Wen oder Was?', DO: 'Wem?', GO: 'Wessen?', ORT: 'Wo?', ZEIT: 'Wann?', GRUND: 'Warum?' };
+
+  function opts(codes) { return codes.map(function (c) { return [c, W.LONG[c]]; }); }
+  function tap(arr, idxs, ask) { return idxs.map(function (i) { return { type: 'tap', str: arr[i], ask: ask }; }); }
+  function choose(items, idxs, options, prompt, wrap) {
+    return idxs.map(function (i) {
+      return { type: 'choose', html: wrap ? wrap(items[i].t) : items[i].t, prompt: prompt, options: options, answer: items[i].a, hint: HINT[items[i].a] };
+    });
+  }
+  var BOLD = function (t) { return '<b>' + t + '</b>'; };
+
+  var FRAGE_ENDE = [
+    { type: 'choose', html: 'Der Hund bellt.', prompt: 'Welche Erweiterung ist ein Ort (Wo?)?', options: [['a', 'im Garten'], ['b', 'heute'], ['c', 'wegen des Regens']], answer: 'a', hint: HINT.ORT },
+    { type: 'choose', html: 'Die Oma backt.', prompt: 'Welche Erweiterung ist ein Dativobjekt (Wem?)?', options: [['a', 'ihrem Enkel'], ['b', 'einen Kuchen'], ['c', 'am Samstag']], answer: 'a', hint: HINT.DO },
+    { type: 'choose', html: 'Lea lacht.', prompt: 'Welche Erweiterung ist ein Grund (Warum?)?', options: [['a', 'im Park'], ['b', 'vor Freude'], ['c', 'gestern']], answer: 'b', hint: HINT.GRUND }
+  ];
+  var PROFI_FRAGEN = [
+    { type: 'choose', html: 'Die Klasse schreibt am Freitag einen Test.', prompt: 'Welches Satzglied bleibt beim Umstellen immer auf Platz 2?', options: [['a', 'Subjekt'], ['b', 'Prädikat'], ['c', 'Zeit']], answer: 'b', hint: HINT.P },
+    { type: 'choose', html: 'Wir gedenken der Opfer.', prompt: 'Wie fragst du nach dem Genitivobjekt?', options: [['a', 'Wem?'], ['b', 'Wessen?'], ['c', 'Wen oder was?']], answer: 'b', hint: HINT.GO },
+    { type: 'choose', html: 'Tom hilft seiner Oma.', prompt: 'Wie fragst du nach dem Dativobjekt?', options: [['a', 'Wem?'], ['b', 'Wessen?'], ['c', 'Wo?']], answer: 'a', hint: HINT.DO }
+  ];
+  var T4Q = D.t4.zuFragen;
+  var T4ITEMS = D.t4.zu.map(function (z) {
+    return { type: 'choose', html: 'Satz: Mama kocht. Erweiterung: <b>' + z.t + '</b>', prompt: 'Welche Frage passt zu dieser Erweiterung?', options: T4Q, answer: z.a, hint: 'Stelle die Frage laut. Welche Frage wird von dieser Erweiterung beantwortet?' };
+  });
+
+  var LEVELS = [
+    { id: 1, name: 'Prädikat und Subjekt', color: '#2f6fd0', mode: 'chunk', desc: 'Finde das Verb und wer etwas tut.',
+      items: tap(D.t1.circle, [0, 1, 2, 3], ['S', 'P']).concat(choose(D.t1.zu, [0, 1, 3, 6], opts(['S', 'P']), 'Was ist das Unterstrichene?')) },
+    { id: 2, name: 'Die Objekte', color: '#2e9e57', mode: 'chunk', desc: 'Wen oder was? Wem? Wessen?',
+      items: tap(D.t2.circle, [0, 1, 2, 3], ['AO', 'DO', 'GO']).concat(choose(D.t2.zu, [0, 1, 3, 4, 5], opts(['AO', 'DO', 'GO']), 'Welches Objekt ist unterstrichen?')) },
+    { id: 3, name: 'Ort, Zeit und Grund', color: '#8e44ad', mode: 'chunk', desc: 'Wo? Wann? Warum?',
+      items: tap(D.t3.circle, [0, 1, 2, 3], ['ORT', 'ZEIT', 'GRUND']).concat(choose(D.t3.zu, [0, 1, 2, 4, 5], opts(['ORT', 'ZEIT', 'GRUND']), 'Ist das Ort, Zeit oder Grund?', BOLD)) },
+    { id: 4, name: 'Sätze wachsen lassen', color: '#e07b00', mode: 'chunk', desc: 'Erweiterungen erkennen und passende Fragen finden.',
+      items: [{ type: 'tap', str: D.t4.farb, ask: ORDER }].concat(T4ITEMS, FRAGE_ENDE) },
+    { id: 5, name: 'Satzglieder-Profi', color: '#c0392b', mode: 'word', desc: 'Alles gemischt. Jedes Wort einzeln antippen.',
+      items: tap(D.t5.circle, [0, 1, 3], ORDER).concat(PROFI_FRAGEN) }
+  ];
+
+  LEVELS.forEach(function (lv) {
+    lv.items.forEach(function (it) {
+      if (it.type === 'tap') {
+        it.segs = W.parse(it.str);
+        it.roles = ORDER.filter(function (r) { return it.ask.indexOf(r) >= 0 && it.segs.some(function (x) { return x.role === r; }); });
+        it.qn = it.roles.length;
+      } else {
+        it.options = shuffle(it.options.slice());
+        it.qn = 1;
+      }
+    });
+    lv.qCount = lv.items.reduce(function (a, i) { return a + i.qn; }, 0);
+    lv.max = lv.qCount * 3;
+  });
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+
+  function tokens(segs, mode) {
+    var out = [];
+    segs.forEach(function (s, si) {
+      if (mode === 'word') {
+        var ws = s.text.split(/\s+/);
+        ws.forEach(function (w, wi) { out.push({ text: w, seg: si, role: s.role, first: wi === 0, punct: wi === ws.length - 1 ? s.punct : '' }); });
+      } else {
+        out.push({ text: s.text, seg: si, role: s.role, first: true, punct: s.punct });
+      }
+    });
+    return out;
+  }
+
+  /* =========================================================
+     Speicher
+     ========================================================= */
+  var mem = null;
+  function loadState() {
+    var st = null;
+    try { var raw = localStorage.getItem(STORE_KEY); if (raw) st = JSON.parse(raw); } catch (e) { /* ignorieren */ }
+    if (!st || typeof st !== 'object') st = mem;
+    if (!st || typeof st !== 'object') st = {};
+    if (typeof st.name !== 'string') st.name = '';
+    if (!st.best || typeof st.best !== 'object') st.best = {};
+    return st;
+  }
+  function saveState(st) { mem = st; try { localStorage.setItem(STORE_KEY, JSON.stringify(st)); } catch (e) { /* ignorieren */ } }
+
+  var STAR_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3 6.6 7.2.7-5.4 4.8 1.6 7.1L12 17.6 5.6 21.2l1.6-7.1L1.8 9.3 9 8.6z"/></svg>';
+  function starsHTML(n) {
+    var h = '<span class="star-row" role="img" aria-label="' + n + ' von 3 Sternen">';
+    for (var i = 0; i < 3; i++) h += STAR_SVG.replace('<svg', '<svg class="' + (i < n ? 'on' : '') + '"');
+    return h + '</span>';
+  }
+  function starsFor(pts, max) { var p = pts / max; return p >= 0.9 ? 3 : p >= 0.7 ? 2 : 1; }
+
+  function qShow(id) {
+    $$('.qscreen').forEach(function (s) { s.classList.toggle('active', s.id === id); });
+    window.scrollTo(0, 0);
+  }
+
+  /* =========================================================
+     QR-Code und Reisekarte
+     ========================================================= */
+  function renderQR() {
+    if (typeof qrcode !== 'function') return;
+    var q = qrcode(0, 'M');
+    q.addData(QUIZ_URL);
+    q.make();
+    $('#qr-img').innerHTML = q.createSvgTag({ cellSize: 8, margin: 2, scalable: true });
+    $('#qr-url').textContent = QUIZ_URL;
+  }
+
+  var game = null;
+  function quizEnter() { game = null; renderMap(); qShow('q-map'); }
+
+  function renderMap() {
+    var st = loadState();
+    $('#q-path').innerHTML = LEVELS.map(function (lv) {
+      var b = st.best[lv.id];
+      return '<div class="station" style="--sc:' + lv.color + '"><div class="num">' + lv.id + '</div><h3>' + lv.name + '</h3><p>' + lv.desc + '</p>' +
+        starsHTML(b ? b.stars : 0) + '<div class="best">' + (b ? b.pts + ' von ' + b.max + ' Punkten' : '') + '</div>' +
+        '<button class="btn" data-start="' + lv.id + '" style="background:' + lv.color + '">' + (b ? 'Nochmal spielen' : 'Los geht\'s') + '</button></div>';
+    }).join('');
+    $('#q-cert-btn').disabled = !Object.keys(st.best).length;
+  }
+
+  $('#q-path').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-start]');
+    if (b) startLevel(parseInt(b.getAttribute('data-start'), 10));
+  });
+
+  var resetTimer = null;
+  $('#q-reset').addEventListener('click', function () {
+    var btn = this;
+    if (btn.getAttribute('data-sure') === '1') {
+      clearTimeout(resetTimer); btn.removeAttribute('data-sure'); btn.textContent = 'Neu starten';
+      saveState({ name: '', best: {} }); renderMap();
+    } else {
+      btn.setAttribute('data-sure', '1'); btn.textContent = 'Wirklich alles löschen?';
+      resetTimer = setTimeout(function () { btn.removeAttribute('data-sure'); btn.textContent = 'Neu starten'; }, 4000);
+    }
+  });
+
+  /* =========================================================
+     Spielablauf
+     ========================================================= */
+  var PRAISE = ['Richtig!', 'Genau!', 'Stark!', 'Treffer!', 'Super gemacht!'];
+
+  function startLevel(id) {
+    var lv = LEVELS.filter(function (l) { return l.id === id; })[0];
+    if (!lv) return;
+    game = { lv: lv, ii: 0, ri: 0, pts: 0, mist: 0, qm: 0, done: 0, lock: false, toks: [], btns: [], marked: 0, need: 0 };
+    $('#p-badge').textContent = 'Station ' + lv.id + ': ' + lv.name;
+    $('#p-badge').style.background = lv.color;
+    $('#p-bar').style.setProperty('--lc', lv.color);
+    qShow('q-play');
+    loadItem();
+  }
+
+  function updateHUD() {
+    $('#p-pts').textContent = game.pts + ' Punkte';
+    $('#p-bar').style.width = Math.round(game.done / game.lv.qCount * 100) + '%';
+  }
+  function setFeedback(text, cls) { var fb = $('#p-fb'); fb.textContent = text; fb.className = 'feedback' + (cls ? ' ' + cls : ''); }
+  function chipInline(role) { return '<span class="chip r-' + role + '">' + W.LONG[role] + '</span>'; }
+
+  function loadItem() {
+    var g = game, it = g.lv.items[g.ii];
+    g.ri = 0; g.lock = false;
+    $('#p-next').style.visibility = 'hidden';
+    updateHUD();
+    if (it.type === 'tap') {
+      g.toks = tokens(it.segs, g.lv.mode);
+      $('#p-area').innerHTML = '<div class="sent" id="p-sent">' + g.toks.map(function (t, i) {
+        var lab = (t.first && t.role) ? '<i class="lab">' + W.ROLES[t.role] + '</i>' : '';
+        return '<span class="tp"><button type="button" class="tok" data-i="' + i + '">' + esc(t.text) + lab + '</button>' +
+          (t.punct ? '<span class="pu">' + t.punct + '</span>' : '') + '</span>';
+      }).join('') + '</div>';
+      g.btns = $$('#p-sent .tok');
+      askTap();
+    } else {
+      $('#p-prompt').textContent = it.prompt;
+      $('#p-sub').textContent = '';
+      $('#p-area').innerHTML = '<div class="ctext">' + it.html + '</div><div class="copts">' + it.options.map(function (o) {
+        return '<button type="button" class="copt" data-v="' + o[0] + '">' + esc(o[1]) + '</button>';
+      }).join('') + '</div>';
+      g.qm = 0;
+      setFeedback('', '');
+    }
+  }
+
+  function askTap() {
+    var g = game, it = g.lv.items[g.ii], role = it.roles[g.ri];
+    var target = g.toks.filter(function (t) { return t.role === role; });
+    g.qm = 0; g.marked = 0; g.need = target.length; g.lock = false;
+    $('#p-prompt').innerHTML = 'Tippe an: ' + W.LONG[role] + ' <span class="chip r-' + role + '">' + QFRAGE[role] + '</span>';
+    var multi = role === 'P' && new Set(target.map(function (t) { return t.seg; })).size > 1;
+    var sub = '';
+    if (multi) sub = 'Das Prädikat hat hier zwei Teile. Tippe beide an.';
+    else if (g.lv.mode === 'word' && g.need > 1) sub = 'Das Satzglied besteht aus mehreren Wörtern. Tippe alle an.';
+    $('#p-sub').textContent = sub;
+    setFeedback('', '');
+    g.btns.forEach(function (b) { b.classList.remove('pulse'); });
+  }
+
+  $('#p-area').addEventListener('click', function (e) {
+    if (!game || game.lock) return;
+    var t = e.target.closest('.tok');
+    if (t) { onTap(parseInt(t.getAttribute('data-i'), 10)); return; }
+    var c = e.target.closest('.copt');
+    if (c) onChoose(c);
+  });
+
+  function award(extra) {
+    var g = game, got = 3 - Math.min(2, g.qm);
+    g.pts += got; g.done++;
+    var praise = got === 3 ? PRAISE[Math.floor(Math.random() * PRAISE.length)] : 'Geschafft. Beim nächsten Mal klappt es noch schneller.';
+    setFeedback(praise + ' +' + got + (got === 1 ? ' Punkt' : ' Punkte'), 'ok');
+    updateHUD();
+    return got;
+  }
+
+  function onTap(i) {
+    var g = game, t = g.toks[i], btn = g.btns[i];
+    if (!t || btn.classList.contains('on')) return;
+    var role = g.lv.items[g.ii].roles[g.ri];
+    if (t.role === role) {
+      btn.classList.remove('pulse');
+      btn.classList.add('on', 'r-' + role);
+      g.marked++;
+      if (g.marked >= g.need) tapRoleDone(role);
+    } else {
+      g.qm++; g.mist++;
+      btn.classList.add('wrong');
+      setTimeout(function () { btn.classList.remove('wrong'); }, 450);
+      setFeedback('Noch nicht. ' + HINT[role], 'no');
+      if (g.qm >= 3) g.toks.forEach(function (tt, k) { if (tt.role === role) g.btns[k].classList.add('pulse'); });
+    }
+  }
+
+  function tapRoleDone(role) {
+    var g = game, it = g.lv.items[g.ii];
+    g.lock = true;
+    g.toks.forEach(function (t, k) { if (t.role === role) $$('.lab', g.btns[k]).forEach(function (l) { l.classList.add('show'); }); });
+    award();
+    setTimeout(function () {
+      if (game !== g) return;
+      g.ri++;
+      if (g.ri < it.roles.length) askTap(); else itemDone();
+    }, 900);
+  }
+
+  function onChoose(btn) {
+    var g = game, it = g.lv.items[g.ii];
+    if (btn.disabled) return;
+    if (btn.getAttribute('data-v') === it.answer) {
+      btn.classList.add('good');
+      $$('.copt', $('#p-area')).forEach(function (b) { b.disabled = true; });
+      g.lock = true;
+      award();
+      itemDone();
+    } else {
+      g.qm++; g.mist++;
+      btn.classList.add('wrong');
+      btn.disabled = true;
+      setFeedback('Noch nicht. ' + (it.hint || 'Lies die Frage noch einmal in Ruhe.'), 'no');
+    }
+  }
+
+  function itemDone() {
+    var g = game, last = g.ii >= g.lv.items.length - 1, it = g.lv.items[g.ii];
+    if (it.type === 'tap') {
+      $('#p-prompt').textContent = 'Satz geschafft!';
+      $('#p-sub').textContent = 'So sieht der Satz mit allen Satzgliedern aus.';
+    }
+    var nb = $('#p-next');
+    nb.textContent = last ? 'Zur Auswertung' : 'Weiter';
+    nb.style.visibility = 'visible';
+    g.lock = true;
+  }
+
+  $('#p-next').addEventListener('click', function () {
+    var g = game;
+    if (!g) return;
+    if (g.ii >= g.lv.items.length - 1) finishLevel(); else { g.ii++; loadItem(); }
+  });
+  $('#p-quit').addEventListener('click', quizEnter);
+
+  function finishLevel() {
+    var g = game, lv = g.lv, stars = starsFor(g.pts, lv.max);
+    var st = loadState(), old = st.best[lv.id];
+    if (!old || g.pts > old.pts || (g.pts === old.pts && g.mist < old.mist)) st.best[lv.id] = { pts: g.pts, max: lv.max, stars: stars, mist: g.mist };
+    saveState(st);
+    var msg = stars === 3 ? 'Fast fehlerfrei. Du bist ein Satzglied-Profi!' :
+              stars === 2 ? 'Sehr gut gemacht. Mit weniger Fehlern gibt es den dritten Stern.' :
+              'Geschafft! Schau dir noch einmal das Arbeitsblatt an und versuche es nochmal.';
+    var next = LEVELS.filter(function (l) { return l.id === lv.id + 1; })[0];
+    $('#q-result-in').innerHTML =
+      '<h1>Station ' + lv.id + ' geschafft!</h1>' + starsHTML(stars) +
+      '<div class="big">' + g.pts + ' von ' + lv.max + ' Punkten</div>' +
+      '<p>' + g.mist + ' Fehler. ' + msg + '</p>' +
+      '<div class="btns">' +
+        (next ? '<button class="btn big" id="r-next">Weiter zu Station ' + next.id + '</button>' : '') +
+        '<button class="btn ghost" id="r-again">Nochmal spielen</button>' +
+        '<button class="btn ghost" id="r-map">Zur Reisekarte</button>' +
+        '<button class="btn ghost" id="r-cert">Meine Urkunde</button></div>';
+    game = null;
+    qShow('q-result');
+    var rn = $('#r-next'); if (rn) rn.addEventListener('click', function () { startLevel(next.id); });
+    $('#r-again').addEventListener('click', function () { startLevel(lv.id); });
+    $('#r-map').addEventListener('click', quizEnter);
+    $('#r-cert').addEventListener('click', showCert);
+  }
+
+  /* ---------- Urkunde ---------- */
+  function rankFor(p) { return p >= 0.9 ? 'Satzglied-Meister' : p >= 0.7 ? 'Satzglied-Profi' : p >= 0.5 ? 'Satzglied-Entdecker' : 'Satzglied-Starter'; }
+
+  function showCert() {
+    var st = loadState(), sumP = 0, sumM = 0, rows = '';
+    LEVELS.forEach(function (lv) {
+      var b = st.best[lv.id];
+      if (b) { sumP += b.pts; sumM += b.max; }
+      rows += '<tr><td>Station ' + lv.id + ' ' + lv.name + '</td><td>' + (b ? starsHTML(b.stars) : '') + '</td><td>' + (b ? b.pts + ' von ' + b.max : 'noch offen') + '</td></tr>';
+    });
+    $('#cert-box').innerHTML =
+      '<h1>URKUNDE</h1><p>für</p>' +
+      '<input class="name-in" id="cert-name" type="text" maxlength="30" placeholder="Dein Name" value="' + esc(st.name) + '" aria-label="Dein Name">' +
+      '<p>Du hast das Satzglieder-Training gemeistert und bist</p>' +
+      '<div class="rank">' + (sumM ? rankFor(sumP / sumM) : 'noch am Anfang') + '</div>' +
+      '<table><tbody>' + rows + '</tbody></table>' +
+      '<div class="total">Gesamt: ' + sumP + ' Punkte</div>' +
+      '<p class="note" style="margin-top:14px">' + new Date().toLocaleDateString('de-DE') + '</p>';
+    $('#cert-name').addEventListener('input', function () { var s = loadState(); s.name = this.value; saveState(s); });
+    qShow('q-cert');
+  }
+  $('#q-cert-btn').addEventListener('click', showCert);
+  $('#cert-back').addEventListener('click', quizEnter);
+  $('#cert-print').addEventListener('click', function () {
+    var inp = $('#cert-name'); if (inp) inp.setAttribute('value', inp.value);
+    doPrint('#view-quiz', ['#q-map', '#q-play', '#q-result']);
+  });
+
+  /* =========================================================
+     Start
+     ========================================================= */
+  renderQR();
+  var h = (location.hash || '').replace('#', '');
+  showView(VIEWS.indexOf(h) >= 0 ? h : 'start');
+  window.addEventListener('hashchange', function () {
+    var x = (location.hash || '').replace('#', '');
+    if (VIEWS.indexOf(x) >= 0 && x !== current) showView(x);
+  });
+})();
+</script>
+</body>
+</html>
